@@ -10,7 +10,7 @@ CREATE TABLE "public"."sudokus" (
 	"sudokuId" serial NOT NULL,
 	"userId" int,
 	"challenge" json NOT NULL,
-	"createdAt" timestamptz NOT NULL,
+	"createdAt" timestamptz NOT NULL default now(),
 	"points" int,
 	CONSTRAINT "sudokus_pk" PRIMARY KEY ("sudokuId")
 ) WITH (
@@ -24,7 +24,7 @@ CREATE TABLE "public"."users" (
 	"levelId" int NOT NULL,
 	"username" TEXT NOT NULL,
 	"hashedPassword" TEXT NOT NULL,
-	"createdAt" timestamptz NOT NULL,
+	"createdAt" timestamptz NOT NULL default now(),
 	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
   OIDS=FALSE
