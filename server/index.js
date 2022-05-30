@@ -9,7 +9,9 @@ const db = new pg.Pool({
   ssl: {
     rejectUnauthorized: false
   }
-}); const app = express();
+});
+
+const app = express();
 const publicPath = path.join(__dirname, 'public');
 
 if (process.env.NODE_ENV === 'development') {
@@ -22,14 +24,19 @@ app.get('/api/hello', (req, res) => {
   res.json({ hello: 'world' });
 });
 
-app.get('/api/sudoku', (req, res) => {
+app.get('/api/sudoku', (req, res, next) => {
   const sql = `
             select *
               from "sudokus"
-             order by rand()
+             order by random()
             limit 1
   `;
-  db.query(sql);
+  db.query(sql)
+    .then(result => {
+      const { challenge, sudokuId } = result.rows[0];
+      res.json({ challenge, sudokuId });
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
