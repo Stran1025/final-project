@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './components/board';
+import NumPad from './components/numpad';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default class App extends React.Component {
@@ -23,6 +24,11 @@ export default class App extends React.Component {
     if (!this.state.sudoku) {
       return (<h1>Hi</h1>);
     }
-    return <Board challenge={this.state.sudoku} />;
+    return (
+      <div className='row'>
+        <Board challenge={this.state.sudoku} />
+        <NumPad />
+      </div>
+    );
   }
 }
