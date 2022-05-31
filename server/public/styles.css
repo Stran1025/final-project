@@ -1,0 +1,5 @@
+table.sudoku-board {
+  max-width: 375px;
+  text-align: center;
+  margin: auto;
+}

@@ -11,13 +11,13 @@ class Board extends React.Component {
 
   render() {
     return (
-    <table className="table table-bordered">
+    <table className="table table-bordered sudoku-board">
       <tbody>
         {this.state.challenge.map((element, index) => {
           return (
-          <tr key={index}>
+          <tr key={index} className='table-light'>
             {this.state.challenge[index].map((element, i) => {
-              return (<td key={i} className="">{this.state.challenge[index][i]}</td>);
+              return (<td key={i} className=''>{this.state.challenge[index][i]}</td>);
             })}
           </tr>
           );
