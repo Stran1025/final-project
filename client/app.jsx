@@ -1,8 +1,9 @@
 import React from 'react';
-import Home from './pages/home';
+import Board from './components/board';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export default class App extends React.Component {
   render() {
-    return <Home />;
+    return <Board />;
   }
 }
