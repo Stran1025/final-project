@@ -24,3 +24,21 @@ table.sudoku-board {
 .bottom.cell {
   border-bottom: 2px solid black;
 }
+
+.numpad {
+  width: 375px;
+  flex-wrap: wrap;
+}
+
+.num {
+  flex-basis: calc(100%/9);
+}
+
+@media (min-width: 992px) {
+  .num {
+    background-color: red;
+    width: 76px;
+    height: 76px;
+    flex-basis: 3;
+  }
+}
