@@ -3,7 +3,7 @@ import React from 'react';
 class NumPad extends React.Component {
   render() {
     return (
-      <div className="col-12 col-sm-12 col-lg-6 numpad">
+      <div className="col-12 col-sm-12 col-lg-3 numpad">
         <button className='num'>1</button>
         <button className='num'>2</button>
         <button className='num'>3</button>
