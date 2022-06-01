@@ -4,6 +4,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      previousMove: [],
       selected: null,
       challenge: this.props.challenge,
       layout: [['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
@@ -65,16 +66,25 @@ class Board extends React.Component {
           </table>
         </div>
         <div className='col-12 col-sm-12 col-lg-1'></div>
-        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center align-self-start" onClick={this.handleNumPadClick}>
-          <button className='num p-2' value={1}>1</button>
-          <button className='num p-2' value={2}>2</button>
-          <button className='num p-2' value={3}>3</button>
-          <button className='num p-2' value={4}>4</button>
-          <button className='num p-2' value={5}>5</button>
-          <button className='num p-2' value={6}>6</button>
-          <button className='num p-2' value={7}>7</button>
-          <button className='num p-2' value={8}>8</button>
-          <button className='num p-2' value={9}>9</button>
+        <div className="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-2 text-center">
+          <div className='row'>
+            <div className='col-4'>
+              <i className='fas fa-pen'></i>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='numpad' onClick={this.handleNumPadClick}>
+              <button className='num p-2' value={1}>1</button>
+              <button className='num p-2' value={2}>2</button>
+              <button className='num p-2' value={3}>3</button>
+              <button className='num p-2' value={4}>4</button>
+              <button className='num p-2' value={5}>5</button>
+              <button className='num p-2' value={6}>6</button>
+              <button className='num p-2' value={7}>7</button>
+              <button className='num p-2' value={8}>8</button>
+              <button className='num p-2' value={9}>9</button>
+            </div>
+          </div>
         </div>
 
       </div>
