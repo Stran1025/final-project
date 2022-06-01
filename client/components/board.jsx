@@ -23,11 +23,17 @@ class Board extends React.Component {
   handleClick(event) {
     const row = event.target.parentElement.getAttribute('data-row');
     const col = event.target.getAttribute('data-col');
-    const val = '';
+    let val = this.state.challenge[row][col];
+    if (val === 0) {
+      val = ' ';
+    }
     this.setState({ selected: { row, col, val } });
   }
 
   handleNumPadClick(event) {
+    if (!this.state.selected) {
+      return;
+    }
     const { row, col } = this.state.selected;
     const input = this.state.challenge;
     input[row][col] = event.target.value;
@@ -37,7 +43,7 @@ class Board extends React.Component {
   render() {
     return (
       <div className='row'>
-        <div className='col-12 col-lg-3'>
+        <div className='col-12 col-sm-12 col-lg-4'>
           <table className="table table-bordered sudoku-board" onClick={this.handleClick}>
             <tbody>
               {this.state.challenge.map((element, index) => {
@@ -58,17 +64,17 @@ class Board extends React.Component {
             </tbody>
           </table>
         </div>
-        <div className='col-lg-2'></div>
-        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center" onClick={this.handleNumPadClick}>
-          <button className='num' value={1}>1</button>
-          <button className='num' value={2}>2</button>
-          <button className='num' value={3}>3</button>
-          <button className='num' value={4}>4</button>
-          <button className='num' value={5}>5</button>
-          <button className='num' value={6}>6</button>
-          <button className='num' value={7}>7</button>
-          <button className='num' value={8}>8</button>
-          <button className='num' value={9}>9</button>
+        <div className='col-12 col-sm-12 col-lg-1'></div>
+        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center align-self-center" onClick={this.handleNumPadClick}>
+          <button className='num p-2' value={1}>1</button>
+          <button className='num p-2' value={2}>2</button>
+          <button className='num p-2' value={3}>3</button>
+          <button className='num p-2' value={4}>4</button>
+          <button className='num p-2' value={5}>5</button>
+          <button className='num p-2' value={6}>6</button>
+          <button className='num p-2' value={7}>7</button>
+          <button className='num p-2' value={8}>8</button>
+          <button className='num p-2' value={9}>9</button>
         </div>
 
       </div>
