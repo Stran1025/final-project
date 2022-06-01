@@ -65,7 +65,7 @@ class Board extends React.Component {
           </table>
         </div>
         <div className='col-12 col-sm-12 col-lg-1'></div>
-        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center align-self-center" onClick={this.handleNumPadClick}>
+        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center align-self-start" onClick={this.handleNumPadClick}>
           <button className='num p-2' value={1}>1</button>
           <button className='num p-2' value={2}>2</button>
           <button className='num p-2' value={3}>3</button>
