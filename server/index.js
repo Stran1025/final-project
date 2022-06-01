@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const errorMiddleware = require('./error-middleware');
 const pg = require('pg');
-const ClientError = require('./client-error');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -41,16 +40,6 @@ app.get('/api/sudoku', (req, res, next) => {
 });
 
 app.use(express.json());
-
-app.post('/api/solution', (req, res, next) => {
-  const { solution, user, sudokuId } = req.body;
-  if (!user) {
-    throw new ClientError(498, 'Unauthorized');
-  }
-  if (!solution || !sudokuId) {
-    throw new ClientError(400, 'solution and sudokuId is a required field');
-  }
-});
 
 app.use(errorMiddleware);
 
