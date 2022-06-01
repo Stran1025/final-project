@@ -19,6 +19,7 @@ class Board extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleNumPadClick = this.handleNumPadClick.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
   }
 
   handleClick(event) {
@@ -37,8 +38,17 @@ class Board extends React.Component {
     }
     const { row, col } = this.state.selected;
     const input = this.state.challenge;
-    input[row][col] = event.target.value;
+    this.state.previousMove.push(JSON.parse(JSON.stringify(input)));
+    input[row][col] = parseInt(event.target.value);
     this.setState({ challenge: input, selected: null });
+  }
+
+  handleUndo() {
+    if (!this.state.previousMove.length) {
+      return;
+    }
+    const move = this.state.previousMove.pop();
+    this.setState({ challenge: move });
   }
 
   render() {
@@ -69,7 +79,7 @@ class Board extends React.Component {
         <div className="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-2 text-center">
           <div className='row'>
             <div className='col-4'>
-              <i className='fas fa-pen'></i>
+              <i className='fas fa-rotate-left' onClick={this.handleUndo}></i>
             </div>
           </div>
           <div className='row'>
