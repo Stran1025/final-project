@@ -77,9 +77,12 @@ class Board extends React.Component {
         </div>
         <div className='col-12 col-sm-12 col-lg-1'></div>
         <div className="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-2 text-center">
-          <div className='row'>
+          <div className='row m-2'>
+            <div className='col-4'></div>
             <div className='col-4'>
-              <i className='fas fa-rotate-left' onClick={this.handleUndo}></i>
+              <div className='i-wrapper'>
+                <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
+              </div>
             </div>
           </div>
           <div className='row'>
