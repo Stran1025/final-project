@@ -39,6 +39,8 @@ app.get('/api/sudoku', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.use(express.json());
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

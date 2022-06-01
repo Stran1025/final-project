@@ -1,5 +1,5 @@
 table.sudoku-board {
-  max-width: 375px;
+  width: 375px;
   text-align: center;
   margin: auto;
 }
@@ -23,4 +23,25 @@ table.sudoku-board {
 
 .bottom.cell {
   border-bottom: 2px solid black;
+}
+
+.numpad {
+  width: 375px;
+  flex-wrap: wrap;
+}
+
+.num {
+  flex-basis: calc(100%/9);
+  color: #0072e3;
+  border: 1px solid black;
+  border-radius: 10%;
+}
+
+@media (min-width: 992px) {
+  .num {
+    width: 76px;
+    height: 76px;
+    flex-basis: calc(100%/3);
+    background-color: #d8e5f4;
+  }
 }
