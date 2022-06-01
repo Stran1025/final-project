@@ -1,5 +1,5 @@
 table.sudoku-board {
-  max-width: 375px;
+  width: 375px;
   text-align: center;
   margin: auto;
 }
@@ -39,6 +39,6 @@ table.sudoku-board {
     background-color: red;
     width: 76px;
     height: 76px;
-    flex-basis: 3;
+    flex-basis: calc(100%/3);
   }
 }
