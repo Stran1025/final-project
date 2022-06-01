@@ -16,11 +16,15 @@ class Board extends React.Component {
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
         ['bottom left cell', 'bottom cell', 'bottom cell', 'bottom left cell', 'bottom cell', 'bottom cell', 'bottom left cell', 'bottom cell', 'bottom right cell']]
     };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
   }
 
   render() {
     return (
-    <table className="table table-bordered sudoku-board">
+    <table className="table table-bordered sudoku-board" onClick={this.handleClick}>
       <tbody>
         {this.state.challenge.map((element, index) => {
           return (

@@ -7,7 +7,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sudoku: null
+      sudoku: null,
+      highlightedCell: null
     };
   }
 
@@ -26,7 +27,7 @@ export default class App extends React.Component {
     }
     return (
       <div className='row'>
-        <Board challenge={this.state.sudoku} />
+        <Board challenge={this.state.sudoku}/>
         <NumPad />
       </div>
     );
