@@ -4,6 +4,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      previousMove: [],
       selected: null,
       challenge: this.props.challenge,
       layout: [['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
@@ -18,6 +19,7 @@ class Board extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleNumPadClick = this.handleNumPadClick.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
   }
 
   handleClick(event) {
@@ -36,8 +38,18 @@ class Board extends React.Component {
     }
     const { row, col } = this.state.selected;
     const input = this.state.challenge;
-    input[row][col] = event.target.value;
-    this.setState({ challenge: input, selected: null });
+    const previousMove = this.state.previousMove.concat([{ challenge: input.map(row => row.map(value => value)), selected: this.state.selected }]);
+    input[row][col] = parseInt(event.target.value);
+    this.setState({ challenge: input, selected: null, previousMove });
+  }
+
+  handleUndo() {
+    if (!this.state.previousMove.length) {
+      return;
+    }
+    const previousMove = this.state.previousMove.slice();
+    const { challenge, selected } = previousMove.pop();
+    this.setState({ challenge, selected, previousMove });
   }
 
   render() {
@@ -64,17 +76,28 @@ class Board extends React.Component {
             </tbody>
           </table>
         </div>
-        <div className='col-12 col-sm-12 col-lg-1'></div>
-        <div className="col-12 col-sm-12 col-lg-3 numpad d-flex justify-content-center align-self-start" onClick={this.handleNumPadClick}>
-          <button className='num p-2' value={1}>1</button>
-          <button className='num p-2' value={2}>2</button>
-          <button className='num p-2' value={3}>3</button>
-          <button className='num p-2' value={4}>4</button>
-          <button className='num p-2' value={5}>5</button>
-          <button className='num p-2' value={6}>6</button>
-          <button className='num p-2' value={7}>7</button>
-          <button className='num p-2' value={8}>8</button>
-          <button className='num p-2' value={9}>9</button>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-1'></div>
+        <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3 col-xxl-2 text-center">
+          <div className='row m-2'>
+            <div className='col-1 m-auto'>
+              <div className='i-wrapper'>
+                <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
+              </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='numpad col-12' onClick={this.handleNumPadClick}>
+              <button className='num p-2 m-1' value={1}>1</button>
+              <button className='num p-2 m-1' value={2}>2</button>
+              <button className='num p-2 m-1' value={3}>3</button>
+              <button className='num p-2 m-1' value={4}>4</button>
+              <button className='num p-2 m-1' value={5}>5</button>
+              <button className='num p-2 m-1' value={6}>6</button>
+              <button className='num p-2 m-1' value={7}>7</button>
+              <button className='num p-2 m-1' value={8}>8</button>
+              <button className='num p-2 m-1' value={9}>9</button>
+            </div>
+          </div>
         </div>
 
       </div>
