@@ -47,7 +47,7 @@ class Board extends React.Component {
     if (!this.state.previousMove.length) {
       return;
     }
-    const previousMove = this.state.previousMove;
+    const previousMove = this.state.previousMove.slice();
     const { challenge, selected } = previousMove.pop();
     this.setState({ challenge, selected, previousMove });
   }
