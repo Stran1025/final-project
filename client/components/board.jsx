@@ -4,10 +4,13 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isPencil: false,
+      pencilMarks: [],
       previousMove: [],
       selected: null,
       challenge: this.props.challenge,
-      layout: [['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
+      layout: [
+        ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
@@ -20,6 +23,7 @@ class Board extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleNumPadClick = this.handleNumPadClick.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
+    this.togglePencil = this.togglePencil.bind(this);
   }
 
   handleClick(event) {
@@ -36,8 +40,11 @@ class Board extends React.Component {
     if (!this.state.selected) {
       return;
     }
+    if (this.state.isPencil) {
+      return;
+    }
     const { row, col } = this.state.selected;
-    const input = this.state.challenge;
+    const input = this.state.challenge.slice();
     const previousMove = this.state.previousMove.concat([{ challenge: input.map(row => row.map(value => value)), selected: this.state.selected }]);
     input[row][col] = parseInt(event.target.value);
     this.setState({ challenge: input, selected: null, previousMove });
@@ -52,7 +59,15 @@ class Board extends React.Component {
     this.setState({ challenge, selected, previousMove });
   }
 
+  togglePencil() {
+    this.setState({ isPencil: !this.state.isPencil });
+  }
+
   render() {
+    let pencil = '';
+    if (this.state.isPencil) {
+      pencil = ' bg-primary';
+    }
     return (
       <div className='row'>
         <div className='col-12 col-sm-12 col-lg-4'>
@@ -85,8 +100,8 @@ class Board extends React.Component {
               </div>
             </div>
             <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
-              <div className='i-wrapper'>
-                <i className='fas fa-pencil fa-2xl i'></i>
+              <div className={'i-wrapper' + pencil}>
+                <i className='fas fa-pencil fa-2xl i' onClick={this.togglePencil}></i>
               </div>
             </div>
           </div>
