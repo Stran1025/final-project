@@ -5,7 +5,6 @@ class Board extends React.Component {
     super(props);
     this.state = {
       isPencil: false,
-      pencilMarks: [],
       previousMove: [],
       selected: null,
       challenge: this.props.challenge,
@@ -40,14 +39,20 @@ class Board extends React.Component {
     if (!this.state.selected) {
       return;
     }
+    const { row, col } = this.state.selected;
+    const number = parseInt(event.target.value);
+    const challenge = this.state.challenge.slice();
+    const previousMove = this.state.previousMove.concat([{ challenge: challenge.map(row => row.map(value => value)), selected: this.state.selected }]);
     if (this.state.isPencil) {
+      if (!Array.isArray(challenge[row][col])) {
+        challenge[row][col] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+      }
+      challenge[row][col][number - 1] = number;
+      this.setState({ challenge, previousMove });
       return;
     }
-    const { row, col } = this.state.selected;
-    const input = this.state.challenge.slice();
-    const previousMove = this.state.previousMove.concat([{ challenge: input.map(row => row.map(value => value)), selected: this.state.selected }]);
-    input[row][col] = parseInt(event.target.value);
-    this.setState({ challenge: input, selected: null, previousMove });
+    challenge[row][col] = number;
+    this.setState({ challenge, selected: null, previousMove });
   }
 
   handleUndo() {
@@ -77,6 +82,29 @@ class Board extends React.Component {
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
+                    if (Array.isArray(this.state.challenge[index][i])) {
+                      return (
+                        <td key={i} data-col={i} className={this.state.layout[index][i]}>
+                          <table>
+                            <tr>
+                              <td className='small-font'>{this.state.challenge[index][i][0]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][1]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][2]}</td>
+                            </tr>
+                            <tr>
+                              <td className='small-font'>{this.state.challenge[index][i][3]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][4]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][5]}</td>
+                            </tr>
+                            <tr>
+                              <td className='small-font'>{this.state.challenge[index][i][6]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][7]}</td>
+                              <td className='small-font'>{this.state.challenge[index][i][8]}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      );
+                    }
                     if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
                       return (<td key={i} data-col={i} className={'bg-warning ' + this.state.layout[index][i]}>{this.state.selected.val}</td>);
                     }
