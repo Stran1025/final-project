@@ -38,17 +38,18 @@ class Board extends React.Component {
     }
     const { row, col } = this.state.selected;
     const input = this.state.challenge;
-    this.state.previousMove.push({ challenge: JSON.parse(JSON.stringify(input)), selected: JSON.parse(JSON.stringify(this.state.selected)) });
+    const previousMove = this.state.previousMove.concat([{ challenge: input.map(row => row.map(value => value)), selected: this.state.selected }]);
     input[row][col] = parseInt(event.target.value);
-    this.setState({ challenge: input, selected: null });
+    this.setState({ challenge: input, selected: null, previousMove });
   }
 
   handleUndo() {
     if (!this.state.previousMove.length) {
       return;
     }
-    const { challenge, selected } = this.state.previousMove.pop();
-    this.setState({ challenge, selected });
+    const previousMove = this.state.previousMove;
+    const { challenge, selected } = previousMove.pop();
+    this.setState({ challenge, selected, previousMove });
   }
 
   render() {
