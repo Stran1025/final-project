@@ -98,15 +98,15 @@ class Board extends React.Component {
                     }
                     if (Array.isArray(digit)) {
                       return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0'}>
-                          <div className='d-inline-flex flex-wrap' data-row={index}>
+                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0 '}>
+                          <div className='d-inline-flex flex-wrap align-middle' data-row={index}>
                             {digit.map((ele, key) => {
                               let value = digit[key];
                               if (!value) {
                                 value = ' ';
                               }
                               return (
-                                <p key={key} className='small-font m-0' data-col={i}>{value}</p>
+                                <p key={key} className='small-font m-0 ' data-col={i}>{value}</p>
                               );
                             })}
                           </div>
