@@ -41,13 +41,14 @@ class Board extends React.Component {
   }
 
   handleNumPadClick(event) {
-    if (!this.state.selected) {
+    const selected = this.state.selected;
+    if (!selected) {
       return;
     }
-    const { row, col } = this.state.selected;
+    const { row, col } = selected;
     const number = parseInt(event.target.value);
     const challenge = this.state.challenge.slice();
-    const previousMove = this.state.previousMove.concat([{ challenge: challenge.map(row => row.map(value => value)), selected: this.state.selected }]);
+    const previousMove = this.state.previousMove.concat([{ challenge: challenge.map(row => row.map(value => value)), selected }]);
     if (this.state.isPencil) {
       if (!Array.isArray(challenge[row][col])) {
         challenge[row][col] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -61,10 +62,10 @@ class Board extends React.Component {
   }
 
   handleUndo() {
-    if (!this.state.previousMove.length) {
+    const previousMove = this.state.previousMove.slice();
+    if (!previousMove.length) {
       return;
     }
-    const previousMove = this.state.previousMove.slice();
     const { challenge, selected } = previousMove.pop();
     this.setState({ challenge, selected, previousMove });
   }
@@ -87,13 +88,13 @@ class Board extends React.Component {
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
-                    let isSelected = ' ';
-                    if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
-                      isSelected = ' bg-warning ';
-                    }
                     let digit = this.state.challenge[index][i];
                     if (!digit) {
                       digit = ' ';
+                    }
+                    let isSelected = ' ';
+                    if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
+                      isSelected = ' bg-warning ';
                     }
                     if (Array.isArray(digit)) {
                       return (
