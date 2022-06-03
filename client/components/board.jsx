@@ -88,7 +88,17 @@ class Board extends React.Component {
   }
 
   handleEraser() {
-
+    const selected = this.state.selected;
+    if (!selected) {
+      return;
+    }
+    const { row, col } = selected;
+    const challenge = this.state.challenge.slice();
+    if (challenge[row][col] === 0) {
+      return;
+    }
+    challenge[row][col] = 0;
+    this.setState({ challenge });
   }
 
   render() {
