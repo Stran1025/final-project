@@ -91,13 +91,17 @@ class Board extends React.Component {
                     if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
                       isSelected = ' bg-warning ';
                     }
-                    if (Array.isArray(this.state.challenge[index][i])) {
+                    let digit = this.state.challenge[index][i];
+                    if (!digit) {
+                      digit = ' ';
+                    }
+                    if (Array.isArray(digit)) {
                       return (
                         <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0'}>
                           <div className='d-inline-flex flex-wrap' data-row={index}>
-                            {this.state.challenge[index][i].map((ele, key) => {
-                              let value = this.state.challenge[index][i][key];
-                              if (this.state.challenge[index][i][key] === 0) {
+                            {digit.map((ele, key) => {
+                              let value = digit[key];
+                              if (!value) {
                                 value = ' ';
                               }
                               return (
@@ -108,10 +112,7 @@ class Board extends React.Component {
                         </td>
                       );
                     }
-                    if (this.state.challenge[index][i]) {
-                      return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}>{this.state.challenge[index][i]}</td>);
-                    }
-                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}></td>);
+                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}>{digit}</td>);
                   })}
                 </tr>
                 );
