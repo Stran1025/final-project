@@ -24,9 +24,7 @@ export default class App extends React.Component {
       return (<h1>Hi</h1>);
     }
     return (
-      <div className='row'>
-        <Board challenge={this.state.sudoku}/>
-      </div>
+      <Board challenge={this.state.sudoku}/>
     );
   }
 }
