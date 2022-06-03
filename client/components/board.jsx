@@ -95,15 +95,15 @@ class Board extends React.Component {
                       return (
                         <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0'}>
                           <div className='d-inline-flex flex-wrap' data-row={index}>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][0]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][1]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][2]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][3]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][4]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][5]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][6]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][7]}</p>
-                            <p className='small-font m-0' data-col={i}>{this.state.challenge[index][i][8]}</p>
+                            {this.state.challenge[index][i].map((ele, key) => {
+                              let value = this.state.challenge[index][i][key];
+                              if (this.state.challenge[index][i][key] === 0) {
+                                value = ' ';
+                              }
+                              return (
+                                <p key={key} className='small-font m-0' data-col={i}>{value}</p>
+                              );
+                            })}
                           </div>
                         </td>
                       );
