@@ -94,11 +94,20 @@ class Board extends React.Component {
     }
     const { row, col } = selected;
     const challenge = this.state.challenge.slice();
+    const previousMove = this.state.previousMove.concat([{
+      challenge: this.state.challenge.map(row => row.map(value => {
+        if (Array.isArray(value)) {
+          value = value.map(pencil => pencil);
+        }
+        return value;
+      })),
+      selected
+    }]);
     if (challenge[row][col] === 0) {
       return;
     }
     challenge[row][col] = 0;
-    this.setState({ challenge });
+    this.setState({ challenge, previousMove });
   }
 
   render() {
