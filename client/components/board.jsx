@@ -48,7 +48,15 @@ class Board extends React.Component {
     const { row, col } = selected;
     const number = parseInt(event.target.value);
     const challenge = this.state.challenge.slice();
-    const previousMove = this.state.previousMove.concat([{ challenge: challenge.map(row => row.map(value => value)), selected }]);
+    const previousMove = this.state.previousMove.concat([{
+      challenge: challenge.map(row => row.map(value => {
+        if (Array.isArray(value)) {
+          value = value.map(pencil => pencil);
+        }
+        return value;
+      })),
+      selected
+    }]);
     if (this.state.isPencil) {
       if (!Array.isArray(challenge[row][col])) {
         challenge[row][col] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -103,10 +111,10 @@ class Board extends React.Component {
                             {digit.map((ele, key) => {
                               let value = digit[key];
                               if (!value) {
-                                value = ' ';
+                                value = '  ';
                               }
                               return (
-                                <p key={key} className='small-font m-0 ' data-col={i}>{value}</p>
+                                <span key={key} className='small-font m-0 ' data-col={i}>{value}</span>
                               );
                             })}
                           </div>
