@@ -19,13 +19,14 @@ class Board extends React.Component {
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
         ['bottom left cell', 'bottom cell', 'bottom cell', 'bottom left cell', 'bottom cell', 'bottom cell', 'bottom left cell', 'bottom cell', 'bottom right cell']]
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleBoardClick = this.handleBoardClick.bind(this);
     this.handleNumPadClick = this.handleNumPadClick.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.togglePencil = this.togglePencil.bind(this);
+    this.handleEraser = this.handleEraser.bind(this);
   }
 
-  handleClick(event) {
+  handleBoardClick(event) {
     const row = event.target.parentElement.getAttribute('data-row');
     const col = event.target.getAttribute('data-col');
     let val = this.state.challenge[row][col];
@@ -86,6 +87,10 @@ class Board extends React.Component {
     this.setState({ isPencil: !this.state.isPencil });
   }
 
+  handleEraser() {
+
+  }
+
   render() {
     let pencil = '';
     if (this.state.isPencil) {
@@ -94,7 +99,7 @@ class Board extends React.Component {
     return (
       <div className='row'>
         <div className='col-12 col-sm-12 col-lg-4'>
-          <table className="table table-bordered sudoku-board" onClick={this.handleClick}>
+          <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
             <tbody>
               {this.state.challenge.map((element, index) => {
                 return (
@@ -148,7 +153,7 @@ class Board extends React.Component {
             </div>
             <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
               <div className='i-wrapper'>
-                <i className='fas fa-eraser fa-2xl i'></i>
+                <i className='fas fa-eraser fa-2xl i' onClick={this.handleEraser}></i>
               </div>
             </div>
           </div>
