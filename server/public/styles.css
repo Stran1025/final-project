@@ -67,4 +67,6 @@ td:hover {
   font-size: 8px;
   width: calc(100%/3);
   color: gray;
+  min-width: 12px;
+  height: 12px;
 }
