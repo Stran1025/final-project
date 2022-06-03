@@ -87,26 +87,13 @@ class Board extends React.Component {
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
-                    if (Array.isArray(this.state.challenge[index][i]) && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
-                      return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i] + ' bg-warning m-0 p-0'}>
-                          <div className='d-inline-flex flex-wrap'>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][0]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][1]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][2]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][3]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][4]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][5]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][6]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][7]}</p>
-                            <p className='small-font m-0'>{this.state.challenge[index][i][8]}</p>
-                          </div>
-                        </td>
-                      );
+                    let isSelected = '';
+                    if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
+                      isSelected = ' bg-warning ';
                     }
                     if (Array.isArray(this.state.challenge[index][i])) {
                       return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i] + ' m-0 p-0'}>
+                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0'}>
                           <div className='d-inline-flex flex-wrap'>
                             <p className='small-font m-0'>{this.state.challenge[index][i][0]}</p>
                             <p className='small-font m-0'>{this.state.challenge[index][i][1]}</p>
@@ -121,13 +108,10 @@ class Board extends React.Component {
                         </td>
                       );
                     }
-                    if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
-                      return (<td key={i} data-col={i} className={'bg-warning ' + this.state.layout[index][i]}>{this.state.selected.val}</td>);
-                    }
                     if (this.state.challenge[index][i]) {
-                      return (<td key={i} data-col={i} className={this.state.layout[index][i]}>{this.state.challenge[index][i]}</td>);
+                      return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}>{this.state.challenge[index][i]}</td>);
                     }
-                    return (<td key={i} data-col={i} className={this.state.layout[index][i]}></td>);
+                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}></td>);
                   })}
                 </tr>
                 );
