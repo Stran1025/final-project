@@ -61,7 +61,11 @@ class Board extends React.Component {
       if (!Array.isArray(challenge[row][col])) {
         challenge[row][col] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
       }
-      challenge[row][col][number - 1] = number;
+      if (challenge[row][col][number - 1] === 0) {
+        challenge[row][col][number - 1] = number;
+      } else {
+        challenge[row][col][number - 1] = 0;
+      }
       this.setState({ challenge, previousMove });
       return;
     }
