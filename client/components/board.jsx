@@ -29,6 +29,11 @@ class Board extends React.Component {
     const row = event.target.parentElement.getAttribute('data-row');
     const col = event.target.getAttribute('data-col');
     let val = this.state.challenge[row][col];
+    if (Array.isArray(val)) {
+      val = ' ';
+      this.setState({ selected: { row, col, val } });
+      return;
+    }
     if (val === 0) {
       val = ' ';
     }
@@ -82,26 +87,37 @@ class Board extends React.Component {
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
+                    if (Array.isArray(this.state.challenge[index][i]) && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
+                      return (
+                        <td key={i} data-col={i} className={this.state.layout[index][i] + ' bg-warning m-0 p-0'}>
+                          <div className='d-inline-flex flex-wrap'>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][0]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][1]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][2]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][3]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][4]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][5]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][6]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][7]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][8]}</p>
+                          </div>
+                        </td>
+                      );
+                    }
                     if (Array.isArray(this.state.challenge[index][i])) {
                       return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i]}>
-                          <table>
-                            <tr>
-                              <td className='small-font'>{this.state.challenge[index][i][0]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][1]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][2]}</td>
-                            </tr>
-                            <tr>
-                              <td className='small-font'>{this.state.challenge[index][i][3]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][4]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][5]}</td>
-                            </tr>
-                            <tr>
-                              <td className='small-font'>{this.state.challenge[index][i][6]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][7]}</td>
-                              <td className='small-font'>{this.state.challenge[index][i][8]}</td>
-                            </tr>
-                          </table>
+                        <td key={i} data-col={i} className={this.state.layout[index][i] + ' m-0 p-0'}>
+                          <div className='d-inline-flex flex-wrap'>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][0]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][1]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][2]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][3]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][4]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][5]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][6]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][7]}</p>
+                            <p className='small-font m-0'>{this.state.challenge[index][i][8]}</p>
+                          </div>
                         </td>
                       );
                     }
