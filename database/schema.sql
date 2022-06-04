@@ -21,7 +21,7 @@ CREATE TABLE "public"."sudokus" (
 
 CREATE TABLE "public"."users" (
 	"userId" serial NOT NULL,
-	"levelId" int NOT NULL,
+	"levelId" int NOT NULL default 0,
 	"username" TEXT NOT NULL,
 	"hashedPassword" TEXT NOT NULL,
 	"createdAt" timestamptz NOT NULL default now(),

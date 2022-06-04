@@ -41,6 +41,10 @@ app.get('/api/sudoku', (req, res, next) => {
 
 app.use(express.json());
 
+app.post('/api/sign-up', (req, res, next) => {
+
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
