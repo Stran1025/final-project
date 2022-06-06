@@ -8,10 +8,16 @@ export default class AuthForm extends React.Component {
       password: '',
       firstname: '',
       lastname: '',
-      error: null
+      error: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  closeModal(event) {
+    event.preventDefault();
+    this.setState({ error: false });
   }
 
   handleChange(event) {
@@ -32,14 +38,16 @@ export default class AuthForm extends React.Component {
     fetch(`/api/auth/${action}`, req)
       .then(res => res.json())
       .then(result => {
+        const { error } = result;
+        if (error) {
+          this.setState({ error });
+          return;
+        }
         if (action === 'sign-up') {
           window.location.hash = 'sign-in';
         } else if (result.user && result.token) {
           this.props.onSignIn(result);
-          return;
         }
-        const error = result;
-        this.setState({ error });
       })
       .catch(err => {
         console.error(err);
@@ -58,13 +66,14 @@ export default class AuthForm extends React.Component {
     const submitButtonText = action === 'sign-up'
       ? 'Register'
       : 'Log In';
-    const modalVisibility = this.state.error ? '' : 'd-none';
+    const modalVisibility = this.state.error ? 'd-flex' : 'd-none';
     if (action === 'sign-up') {
       return (
         <form className="w-100" onSubmit={handleSubmit}>
-          <div className="username-modal d-flex justify-content-center">
+          <div className={'username-modal justify-content-center ' + modalVisibility}>
             <div className='card align-self-center p-3'>
-              Username is taken
+              {this.state.error}
+              <button className='btn btn-primary' onClick={this.closeModal}>Return</button>
             </div>
           </div>
           <div className='row'>
@@ -131,7 +140,7 @@ export default class AuthForm extends React.Component {
     } else {
       return (
         <form className="w-100" onSubmit={handleSubmit}>
-          <div className={'username-modal d-flex ' + modalVisibility}>
+          <div className={'username-modal ' + modalVisibility}>
             <div className='card align-self-center'>
               {this.state.error}
             </div>
