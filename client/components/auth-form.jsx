@@ -5,7 +5,10 @@ export default class AuthForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      firstname: '',
+      lastname: '',
+      error: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +37,11 @@ export default class AuthForm extends React.Component {
         } else if (result.user && result.token) {
           this.props.onSignIn(result);
         }
+        const error = result;
+        this.setState({ error });
+      })
+      .catch(err => {
+        console.error(err);
       });
   }
 
