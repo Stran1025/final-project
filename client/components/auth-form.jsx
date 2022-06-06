@@ -36,6 +36,7 @@ export default class AuthForm extends React.Component {
           window.location.hash = 'sign-in';
         } else if (result.user && result.token) {
           this.props.onSignIn(result);
+          return;
         }
         const error = result;
         this.setState({ error });
@@ -57,9 +58,15 @@ export default class AuthForm extends React.Component {
     const submitButtonText = action === 'sign-up'
       ? 'Register'
       : 'Log In';
+    const modalVisibility = this.state.error ? '' : 'd-none';
     if (action === 'sign-up') {
       return (
         <form className="w-100" onSubmit={handleSubmit}>
+          <div className="username-modal d-flex justify-content-center">
+            <div className='card align-self-center p-3'>
+              Username is taken
+            </div>
+          </div>
           <div className='row'>
             <div className="col-6">
               <label className='form-label'> First Name
@@ -124,6 +131,11 @@ export default class AuthForm extends React.Component {
     } else {
       return (
         <form className="w-100" onSubmit={handleSubmit}>
+          <div className={'username-modal d-flex ' + modalVisibility}>
+            <div className='card align-self-center'>
+              {this.state.error}
+            </div>
+          </div>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username
