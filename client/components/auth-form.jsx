@@ -51,6 +51,30 @@ export default class AuthForm extends React.Component {
       : 'Log In';
     return (
       <form className="w-100" onSubmit={handleSubmit}>
+        <div className='row'>
+          <div className="col-6">
+            <label className='form-label'> First Name
+              <input
+                required
+                id="firstname"
+                type="text"
+                name="firstname"
+                onChange={handleChange}
+                className="form-control bg-light" />
+            </label>
+          </div>
+          <div className="col-6">
+            <label className='form-label'> Last Name
+              <input
+                required
+                id="lastname"
+                type="text"
+                name="lastname"
+                onChange={handleChange}
+                className="form-control bg-light" />
+            </label>
+          </div>
+        </div>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">
             Username

@@ -10,7 +10,7 @@ CREATE TABLE "public"."sudokus" (
 	"sudokuId" serial NOT NULL,
 	"userId" int,
 	"challenge" json NOT NULL,
-	"createdAt" timestamptz NOT NULL default now(),
+	"createdAt" timestamptz NOT NULL DEFAULT 'now()',
 	"points" int,
 	CONSTRAINT "sudokus_pk" PRIMARY KEY ("sudokuId")
 ) WITH (
@@ -21,10 +21,9 @@ CREATE TABLE "public"."sudokus" (
 
 CREATE TABLE "public"."users" (
 	"userId" serial NOT NULL,
-	"levelId" int NOT NULL default 0,
 	"username" TEXT NOT NULL,
 	"hashedPassword" TEXT NOT NULL,
-	"createdAt" timestamptz NOT NULL default now(),
+	"createdAt" timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
   OIDS=FALSE
@@ -51,6 +50,7 @@ CREATE TABLE "public"."levels" (
 	"levelId" serial NOT NULL,
 	"title" TEXT NOT NULL,
 	"experiencePoints" int NOT NULL,
+	"userId" int NOT NULL,
 	CONSTRAINT "levels_pk" PRIMARY KEY ("levelId")
 ) WITH (
   OIDS=FALSE
@@ -59,8 +59,6 @@ CREATE TABLE "public"."levels" (
 
 
 ALTER TABLE "sudokus" ADD CONSTRAINT "sudokus_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
-
-ALTER TABLE "users" ADD CONSTRAINT "users_fk0" FOREIGN KEY ("levelId") REFERENCES "levels"("levelId");
-
 ALTER TABLE "solutions" ADD CONSTRAINT "solutions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 ALTER TABLE "solutions" ADD CONSTRAINT "solutions_fk1" FOREIGN KEY ("sodukuId") REFERENCES "sudokus"("sudokuId");
+ALTER TABLE "levels" ADD CONSTRAINT "levels_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
