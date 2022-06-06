@@ -1,11 +1,18 @@
 import React from 'react';
 import Board from './components/board';
 import 'bootstrap/dist/css/bootstrap.css';
+import jwtDecode from 'jwt-decode';
+import AppContext from './lib/app-context';
+import parseRoute from './lib/parse-route';
+import Auth from './pages/auth';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
+      isAuthorizing: true,
+      route: parseRoute(window.location.hash),
       sudoku: null
     };
   }
