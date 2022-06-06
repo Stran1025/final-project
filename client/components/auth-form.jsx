@@ -37,7 +37,7 @@ export default class AuthForm extends React.Component {
       });
   }
 
-  render() {
+  renderPage() {
     const { action } = this.props;
     const { handleChange, handleSubmit } = this;
     const alternateActionHref = action === 'sign-up'
@@ -49,68 +49,118 @@ export default class AuthForm extends React.Component {
     const submitButtonText = action === 'sign-up'
       ? 'Register'
       : 'Log In';
+    if (action === 'sign-up') {
+      return (
+        <form className="w-100" onSubmit={handleSubmit}>
+          <div className='row'>
+            <div className="col-6">
+              <label className='form-label'> First Name
+                <input
+                  required
+                  id="firstname"
+                  type="text"
+                  name="firstname"
+                  onChange={handleChange}
+                  className="form-control bg-light" />
+              </label>
+            </div>
+            <div className="col-6">
+              <label className='form-label'> Last Name
+                <input
+                  required
+                  id="lastname"
+                  type="text"
+                  name="lastname"
+                  onChange={handleChange}
+                  className="form-control bg-light" />
+              </label>
+            </div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              required
+              autoFocus
+              id="username"
+              type="text"
+              name="username"
+              onChange={handleChange}
+              className="form-control bg-light" />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              required
+              id="password"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              className="form-control bg-light" />
+          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <small>
+              <a className="text-muted" href={alternateActionHref}>
+                {alternatActionText}
+              </a>
+            </small>
+            <button type="submit" className="btn btn-primary">
+              {submitButtonText}
+            </button>
+          </div>
+        </form>
+      );
+    } else {
+      return (
+        <form className="w-100" onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              required
+              autoFocus
+              id="username"
+              type="text"
+              name="username"
+              onChange={handleChange}
+              className="form-control bg-light" />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              required
+              id="password"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              className="form-control bg-light" />
+          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <small>
+              <a className="text-muted" href={alternateActionHref}>
+                {alternatActionText}
+              </a>
+            </small>
+            <button type="submit" className="btn btn-primary">
+              {submitButtonText}
+            </button>
+          </div>
+        </form>
+      );
+    }
+  }
+
+  render() {
     return (
-      <form className="w-100" onSubmit={handleSubmit}>
-        <div className='row'>
-          <div className="col-6">
-            <label className='form-label'> First Name
-              <input
-                required
-                id="firstname"
-                type="text"
-                name="firstname"
-                onChange={handleChange}
-                className="form-control bg-light" />
-            </label>
-          </div>
-          <div className="col-6">
-            <label className='form-label'> Last Name
-              <input
-                required
-                id="lastname"
-                type="text"
-                name="lastname"
-                onChange={handleChange}
-                className="form-control bg-light" />
-            </label>
-          </div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">
-            Username
-          </label>
-          <input
-            required
-            autoFocus
-            id="username"
-            type="text"
-            name="username"
-            onChange={handleChange}
-            className="form-control bg-light" />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            required
-            id="password"
-            type="password"
-            name="password"
-            onChange={handleChange}
-            className="form-control bg-light" />
-        </div>
-        <div className="d-flex justify-content-between align-items-center">
-          <small>
-            <a className="text-muted" href={alternateActionHref}>
-              {alternatActionText}
-            </a>
-          </small>
-          <button type="submit" className="btn btn-primary">
-            {submitButtonText}
-          </button>
-        </div>
-      </form>
+      <>
+        {this.renderPage()}
+      </>
     );
   }
 }
