@@ -83,3 +83,8 @@ td:hover {
 .half-height {
   min-height: 40vh;
 }
+
+.info-box {
+  width: 100px;
+  height: 100px;
+}
