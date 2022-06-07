@@ -4,7 +4,7 @@ import Redirect from '../components/redirect';
 
 export default class Profile extends React.Component {
   render() {
-    if (!this.context.token) return <Redirect to="sign-in"/>;
+    if (!this.context.user) return <Redirect to="sign-in"/>;
     const style = {
       width: '35%'
     };
@@ -12,7 +12,7 @@ export default class Profile extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-12 card half-height">
-            <h1 className="text-center">{'Hi! ' + 'Sang!'}</h1>
+            <h1 className="text-center mt-3">{'Hi! ' + 'Sang!'}</h1>
             <div className="d-flex justify-content-evenly mt-3">
               <div className="border info-box text-center d-flex align-items-center justify-content-center">
                 <p className='fs-4 fw-bold'>0<br></br><span className='fw-normal fs-6'>Completed</span></p>

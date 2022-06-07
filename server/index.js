@@ -23,10 +23,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.static(publicPath));
 
-app.get('/api/hello', (req, res) => {
-  res.json({ hello: 'world' });
-});
-
 app.get('/api/sudoku', (req, res, next) => {
   const sql = `
             select *
@@ -104,6 +100,24 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           const token = jwt.sign({ userId, username }, process.env.TOKEN_SECRET);
           res.json({ token, user: { userId, username } });
         });
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/profile', (req, res, next) => {
+  if (!req.headers['x-access-token']) {
+    throw new ClientError(401, 'authentication required');
+  }
+  req.user = jwt.verify(req.headers['x-access-token'], process.env.TOKEN_SECRET);
+  const sql = `
+    select *
+      from "users"
+      join "solutions" using ("userId")
+  `;
+  db.query(sql, [req.user.userId])
+    .then(result => {
+      const [user] = result.rows;
+      res.json(user);
     })
     .catch(err => next(err));
 });
