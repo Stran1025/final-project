@@ -7,6 +7,7 @@ import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
 import Navbar from './components/navbar';
 import Home from './pages/home';
+import Profile from './pages/profile';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ export default class App extends React.Component {
       return <Auth/>;
     }
     if (path === 'profile') {
-      return <h1>your profile page</h1>;
+      return <Profile/>;
     }
     return (<h1>Not Found</h1>);
   }
