@@ -78,7 +78,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/auth/sign-in', (res, req, next) => {
+app.post('/api/auth/sign-in', (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password) {
     throw new ClientError(401, 'username and password are require');
@@ -104,7 +104,8 @@ app.post('/api/auth/sign-in', (res, req, next) => {
           const token = jwt.sign({ userId, username }, process.env.TOKEN_SECRET);
           res.json({ token, userId, username });
         });
-    });
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
