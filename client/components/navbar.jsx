@@ -10,7 +10,7 @@ export default class Navbar extends React.Component {
             <i className='fas fa-bars fa-2xl me-2'></i>
             Sudokuller
           </a>
-          <a>
+          <a href='#profile'>
             <i className='fas fa-user fa-2xl'></i>
           </a>
         </div>

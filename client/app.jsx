@@ -55,6 +55,9 @@ export default class App extends React.Component {
     if (path === 'sign-in' || path === 'sign-up') {
       return <Auth/>;
     }
+    if (path === 'profile') {
+      return <h1>your profile page</h1>;
+    }
     return (<h1>Not Found</h1>);
   }
 
