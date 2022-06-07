@@ -6,6 +6,7 @@ import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
 import Navbar from './components/navbar';
+import Home from './pages/home';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export default class App extends React.Component {
   renderPage() {
     const { path } = this.state.route;
     if (path === '') {
-      return <h1>Testing</h1>;
+      return <Home/>;
     }
     if (path === 'sign-in' || path === 'sign-up') {
       return <Auth/>;

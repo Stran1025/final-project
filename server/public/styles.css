@@ -79,3 +79,7 @@ td:hover {
   min-width: 12px;
   height: 12px;
 }
+
+.half-height {
+  min-height: 40vh;
+}
