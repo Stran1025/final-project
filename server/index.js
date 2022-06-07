@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const errorMiddleware = require('./error-middleware');
 const pg = require('pg');
+const argon2 = require('argon2');
+const ClientError = require('./client-error');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -40,6 +42,40 @@ app.get('/api/sudoku', (req, res, next) => {
 });
 
 app.use(express.json());
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { username, password, firstname, lastname } = req.body;
+  if (!username && !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+  const usersCheck = `
+        select *
+        from "users"
+        where "username" = $1
+  `;
+  db.query(usersCheck, [username])
+    .then(result => {
+      if (result.rows[0]) {
+        throw new ClientError(400, 'username is taken');
+      }
+    })
+    .catch(err => next(err));
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+          insert into "users" ("username", "hashedPassword", "firstName", "lastName")
+          values ($1, $2, $3, $4)
+          returning "userId", "username", "createdAt"
+      `;
+      return db.query(sql, [username, hashedPassword, firstname, lastname]);
+    })
+    .then(result => {
+      const [user] = result.rows;
+      res.status(201).json(user);
+    })
+    .catch(err => next(err));
+});
 
 app.use(errorMiddleware);
 
