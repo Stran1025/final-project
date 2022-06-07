@@ -110,14 +110,34 @@ app.get('/api/profile', (req, res, next) => {
   }
   req.user = jwt.verify(req.headers['x-access-token'], process.env.TOKEN_SECRET);
   const sql = `
-    select *
+    select "firstName"
       from "users"
-      join "solutions" using ("userId")
+      where "userId" = $1;
   `;
   db.query(sql, [req.user.userId])
     .then(result => {
       const [user] = result.rows;
-      res.json(user);
+      const completedSql = `
+        select count("solutionId") as "completed"
+          from "solutions"
+          where "userId" = $1 and "isFinished" = true;
+      `;
+      db.query(completedSql, [req.user.userId])
+        .then(result => {
+          user.completed = result.rows[0].completed;
+          const createdSql = `
+            select count("sudokuId") as "created"
+            from "sudokus"
+            where "userId" = $1
+          `;
+          db.query(createdSql, [req.user.userId])
+            .then(result => {
+              user.created = result.rows[0].created;
+              res.json(user);
+            })
+            .catch(err => next(err));
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
