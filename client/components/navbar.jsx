@@ -4,17 +4,17 @@ import AppContext from '../lib/app-context';
 export default class Navbar extends React.Component {
   render() {
     return (
-      <div className="d-flex align-items-center flex-wrap">
-        <div className="col-1">
-          <i className="fas fa-bars fa-2xl"></i>
+      <nav className='navbar navbar-light bg-light border border-top-0 border-start-0 border-end-0'>
+        <div className="container">
+          <a href="#" className="navbar-brand">
+            <i className='fas fa-bars fa-2xl me-2'></i>
+            Sudokuller
+          </a>
+          <a>
+            <i className='fas fa-user fa-2xl'></i>
+          </a>
         </div>
-        <div className="col-4">
-          <h1>Sudokuller</h1>
-        </div>
-        <div>
-          <i className="fas fa-user fa-2xl"></i>
-        </div>
-      </div>
+      </nav>
     );
   }
 }
