@@ -50,8 +50,8 @@ CREATE TABLE "public"."solutions" (
 
 CREATE TABLE "public"."levels" (
 	"levelId" serial NOT NULL,
-	"title" TEXT NOT NULL,
-	"experiencePoints" int NOT NULL,
+	"title" TEXT NOT NULL default 'Novice',
+	"experiencePoints" int NOT NULL default 0,
 	"userId" int NOT NULL,
 	CONSTRAINT "levels_pk" PRIMARY KEY ("levelId")
 ) WITH (

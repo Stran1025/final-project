@@ -32,7 +32,7 @@ export default class Profile extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12 card half-height">
+          <div className="col-10 col-sm-10 sol-md-8 col-lg-6 col-xxl-6 card half-height m-auto">
             <h1 className="text-center mt-3">{'Hi! ' + this.state.firstName}</h1>
             <div className="d-flex justify-content-evenly mt-3">
               <div className="border info-box text-center d-flex align-items-center justify-content-center">
