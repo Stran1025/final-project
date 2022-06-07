@@ -5,6 +5,7 @@ const errorMiddleware = require('./error-middleware');
 const pg = require('pg');
 const argon2 = require('argon2');
 const ClientError = require('./client-error');
+const jwt = require('jsonwebtoken');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -75,6 +76,35 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       res.status(201).json(user);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-in', (res, req, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(401, 'username and password are require');
+  }
+  const sql = `
+      select "userId", "hashedPassword"
+        from "users"
+       where "username" = $1
+  `;
+  db.query(sql, [username])
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'Invalid login');
+      }
+      const { userId, hashedPassword } = user;
+      return argon2
+        .verify(hashedPassword, password)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'Invalid Password');
+          }
+          const token = jwt.sign({ userId, username }, process.env.TOKEN_SECRET);
+          res.json({ token, userId, username });
+        });
+    });
 });
 
 app.use(errorMiddleware);
