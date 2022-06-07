@@ -102,7 +102,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
             throw new ClientError(401, 'Invalid Password');
           }
           const token = jwt.sign({ userId, username }, process.env.TOKEN_SECRET);
-          res.json({ token, userId, username });
+          res.json({ token, user: { userId, username } });
         });
     })
     .catch(err => next(err));

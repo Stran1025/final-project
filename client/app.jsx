@@ -64,9 +64,10 @@ export default class App extends React.Component {
 
   render() {
     if (this.state.isAuthorizing) return null;
+    const token = window.localStorage.getItem('sudoku-token');
     const { user, route, sudoku } = this.state;
     const { handleSignIn, handleSignOut } = this;
-    const contextValue = { user, route, handleSignIn, handleSignOut, sudoku };
+    const contextValue = { user, route, handleSignIn, handleSignOut, sudoku, token };
     return (
       <AppContext.Provider value={contextValue}>
         <>

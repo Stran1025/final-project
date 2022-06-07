@@ -1,8 +1,10 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class Profile extends React.Component {
   render() {
+    if (!this.context.token) return <Redirect to="sign-in"/>;
     const style = {
       width: '35%'
     };
