@@ -130,6 +130,12 @@ class Board extends React.Component {
       <div className="container">
         <div className='row'>
           <div className='col-12 col-sm-12 col-lg-4'>
+            <p className='text-end'>
+              <span>00</span>
+              <span>:</span>
+              <span className='me-1'>00</span>
+              <i className="far fa-circle-pause"></i>
+            </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
               <tbody>
                 {this.state.challenge.map((element, index) => {

@@ -6,7 +6,7 @@ import Auth from './pages/auth';
 import Navbar from './components/navbar';
 import Home from './pages/home';
 import Profile from './pages/profile';
-import Board from './components/board';
+import Board from './pages/board';
 
 export default class App extends React.Component {
   constructor(props) {
