@@ -36,9 +36,9 @@ class Board extends React.Component {
       .then(data => {
         const { challenge, solution } = data;
         this.setState({ challenge, solution });
+        this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
-
   }
 
   handleTimer() {
@@ -146,7 +146,7 @@ class Board extends React.Component {
               <span>{this.state.timer.minute}</span>
               <span>:</span>
               <span className='me-1'>{this.state.timer.second}</span>
-              <i className="far fa-circle-pause" onClick={this.handleTimer}></i>
+              <i className="far fa-circle-pause"></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
               <tbody>
