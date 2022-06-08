@@ -1,7 +1,6 @@
 import React from 'react';
 // import Board from './components/board';
 import 'bootstrap/dist/css/bootstrap.css';
-import jwtDecode from 'jwt-decode';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
@@ -13,10 +12,10 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
-      sudoku: null
+      sudoku: null,
+      token: null
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
@@ -33,8 +32,7 @@ export default class App extends React.Component {
       this.setState({ route: parseRoute(window.location.hash) });
     });
     const token = window.localStorage.getItem('sudoku-token');
-    const user = token ? jwtDecode(token) : null;
-    this.setState({ user, isAuthorizing: false });
+    this.setState({ isAuthorizing: false, token });
   }
 
   handleSignIn(result) {
@@ -64,10 +62,9 @@ export default class App extends React.Component {
 
   render() {
     if (this.state.isAuthorizing) return null;
-    const token = window.localStorage.getItem('sudoku-token');
-    const { user, route, sudoku } = this.state;
+    const { route, sudoku, token } = this.state;
     const { handleSignIn, handleSignOut } = this;
-    const contextValue = { user, route, handleSignIn, handleSignOut, sudoku, token };
+    const contextValue = { route, handleSignIn, handleSignOut, sudoku, token };
     return (
       <AppContext.Provider value={contextValue}>
         <>

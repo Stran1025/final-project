@@ -28,7 +28,7 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    if (!this.context.user) return <Redirect to="sign-in"/>;
+    if (!this.context.token) return <Redirect to="sign-in"/>;
     return (
       <div className="container">
         <div className="row">

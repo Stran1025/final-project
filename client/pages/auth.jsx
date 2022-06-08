@@ -9,9 +9,9 @@ export default class AuthPage extends React.Component {
   }
 
   render() {
-    const { user, route, handleSignIn } = this.context;
+    const { token, route, handleSignIn } = this.context;
 
-    if (user) return <Redirect to="" />;
+    if (token) return <Redirect to="" />;
 
     const welcomeMessage = route.path === 'sign-in'
       ? 'Please sign in to continue'
