@@ -127,85 +127,87 @@ class Board extends React.Component {
       pencil = ' bg-primary';
     }
     return (
-      <div className='row'>
-        <div className='col-12 col-sm-12 col-lg-4'>
-          <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
-            <tbody>
-              {this.state.challenge.map((element, index) => {
-                return (
-                  <tr key={index} data-row={index} className='table-light'>
-                  {this.state.challenge[index].map((element, i) => {
-                    let isIncorrect = ' ';
-                    if (this.state.challenge[index][i] !== this.state.solution[index][i] && this.state.challenge[index][i] !== 0) {
-                      isIncorrect = ' bg-danger';
-                    }
-                    let digit = this.state.challenge[index][i];
-                    if (!digit) {
-                      digit = ' ';
-                    }
-                    let isSelected = ' ';
-                    if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
-                      isSelected = ' bg-warning ';
-                    }
-                    if (Array.isArray(digit)) {
-                      return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + ' m-0 p-0 '}>
-                          <div className='d-inline-flex flex-wrap align-middle' data-row={index}>
-                            {digit.map((ele, key) => {
-                              let value = digit[key];
-                              if (!value) {
-                                value = '  ';
-                              }
-                              return (
-                                <span key={key} className='small-font m-0 ' data-col={i}>{value}</span>
-                              );
-                            })}
-                          </div>
-                        </td>
-                      );
-                    }
-                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + isIncorrect}>{digit}</td>);
-                  })}
-                </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <div className='col-12 col-sm-12 col-md-12 col-lg-1'></div>
-        <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3 col-xxl-3 text-center">
-          <div className='row m-2 justify-content-center'>
-            <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
-              <div className='i-wrapper'>
-                <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
+      <div className="container">
+        <div className='row'>
+          <div className='col-12 col-sm-12 col-lg-4'>
+            <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
+              <tbody>
+                {this.state.challenge.map((element, index) => {
+                  return (
+                    <tr key={index} data-row={index} className='table-light'>
+                    {this.state.challenge[index].map((element, i) => {
+                      let isIncorrect = ' ';
+                      if (this.state.challenge[index][i] !== this.state.solution[index][i] && this.state.challenge[index][i] !== 0) {
+                        isIncorrect = ' bg-danger';
+                      }
+                      let digit = this.state.challenge[index][i];
+                      if (!digit) {
+                        digit = ' ';
+                      }
+                      let isSelected = ' ';
+                      if (this.state.selected && parseInt(this.state.selected.row) === index && parseInt(this.state.selected.col) === i) {
+                        isSelected = ' bg-warning ';
+                      }
+                      if (Array.isArray(digit)) {
+                        return (
+                          <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + ' m-0 p-0 '}>
+                            <div className='d-inline-flex flex-wrap align-middle' data-row={index}>
+                              {digit.map((ele, key) => {
+                                let value = digit[key];
+                                if (!value) {
+                                  value = '  ';
+                                }
+                                return (
+                                  <span key={key} className='small-font m-0 ' data-col={i}>{value}</span>
+                                );
+                              })}
+                            </div>
+                          </td>
+                        );
+                      }
+                      return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + isIncorrect}>{digit}</td>);
+                    })}
+                  </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className='col-12 col-sm-12 col-md-12 col-lg-1'></div>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3 col-xxl-3 text-center">
+            <div className='row m-2 justify-content-center'>
+              <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
+                <div className='i-wrapper'>
+                  <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
+                </div>
+              </div>
+              <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
+                <div className={'i-wrapper' + pencil}>
+                  <i className='fas fa-pencil fa-2xl i' onClick={this.togglePencil}></i>
+                </div>
+              </div>
+              <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
+                <div className='i-wrapper'>
+                  <i className='fas fa-eraser fa-2xl i' onClick={this.handleEraser}></i>
+                </div>
               </div>
             </div>
-            <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
-              <div className={'i-wrapper' + pencil}>
-                <i className='fas fa-pencil fa-2xl i' onClick={this.togglePencil}></i>
-              </div>
-            </div>
-            <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
-              <div className='i-wrapper'>
-                <i className='fas fa-eraser fa-2xl i' onClick={this.handleEraser}></i>
+            <div className='row'>
+              <div className='numpad col-12' onClick={this.handleNumPadClick}>
+                <button className='num p-2 m-1' value={1}>1</button>
+                <button className='num p-2 m-1' value={2}>2</button>
+                <button className='num p-2 m-1' value={3}>3</button>
+                <button className='num p-2 m-1' value={4}>4</button>
+                <button className='num p-2 m-1' value={5}>5</button>
+                <button className='num p-2 m-1' value={6}>6</button>
+                <button className='num p-2 m-1' value={7}>7</button>
+                <button className='num p-2 m-1' value={8}>8</button>
+                <button className='num p-2 m-1' value={9}>9</button>
               </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='numpad col-12' onClick={this.handleNumPadClick}>
-              <button className='num p-2 m-1' value={1}>1</button>
-              <button className='num p-2 m-1' value={2}>2</button>
-              <button className='num p-2 m-1' value={3}>3</button>
-              <button className='num p-2 m-1' value={4}>4</button>
-              <button className='num p-2 m-1' value={5}>5</button>
-              <button className='num p-2 m-1' value={6}>6</button>
-              <button className='num p-2 m-1' value={7}>7</button>
-              <button className='num p-2 m-1' value={8}>8</button>
-              <button className='num p-2 m-1' value={9}>9</button>
-            </div>
-          </div>
-        </div>
 
+        </div>
       </div>
     );
   }

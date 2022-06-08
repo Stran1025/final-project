@@ -6,6 +6,7 @@ import Auth from './pages/auth';
 import Navbar from './components/navbar';
 import Home from './pages/home';
 import Profile from './pages/profile';
+import Board from './components/board';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,15 +28,19 @@ export default class App extends React.Component {
     this.setState({ isAuthorizing: false, token });
   }
 
+  handleNewGame() {
+
+  }
+
   handleSignIn(result) {
-    const { user, token } = result;
+    const { token } = result;
     window.localStorage.setItem('sudoku-token', token);
-    this.setState({ user });
+    this.setState({ token });
   }
 
   handleSignOut() {
     window.localStorage.removeItem('sudoku-token');
-    this.setState({ user: null });
+    this.setState({ token: null });
   }
 
   renderPage() {
@@ -48,6 +53,9 @@ export default class App extends React.Component {
     }
     if (path === 'profile') {
       return <Profile/>;
+    }
+    if (path === 'board') {
+      return <Board/>;
     }
     return (<h1>Not Found</h1>);
   }
