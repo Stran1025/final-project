@@ -1,19 +1,21 @@
 import React from 'react';
-import Board from './components/board';
+// import Board from './components/board';
 import 'bootstrap/dist/css/bootstrap.css';
-import jwtDecode from 'jwt-decode';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
+import Navbar from './components/navbar';
+import Home from './pages/home';
+import Profile from './pages/profile';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
-      sudoku: null
+      sudoku: null,
+      token: null
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
@@ -27,11 +29,10 @@ export default class App extends React.Component {
       })
       .catch(err => console.error('Error:', err));
     window.addEventListener('hashchange', () => {
-      this.setState({ route: parseRoute(window.location.hash)})
-    })
+      this.setState({ route: parseRoute(window.location.hash) });
+    });
     const token = window.localStorage.getItem('sudoku-token');
-    const user = token ? jwtDecode(token) : null;
-    this.setState({user, isAuthorizing: false})
+    this.setState({ isAuthorizing: false, token });
   }
 
   handleSignIn(result) {
@@ -46,24 +47,30 @@ export default class App extends React.Component {
   }
 
   renderPage() {
-    const {path} = this.state.route;
+    const { path } = this.state.route;
     if (path === '') {
-      return <h1>Testing</h1>
+      return <Home/>;
     }
     if (path === 'sign-in' || path === 'sign-up') {
-      return <Auth/>
+      return <Auth/>;
     }
-    return (<h1>Not Found</h1>)
+    if (path === 'profile') {
+      return <Profile/>;
+    }
+    return (<h1>Not Found</h1>);
   }
 
   render() {
     if (this.state.isAuthorizing) return null;
-    const { user, route, sudoku } = this.state;
+    const { route, sudoku, token } = this.state;
     const { handleSignIn, handleSignOut } = this;
-    const contextValue = { user, route, handleSignIn, handleSignOut, sudoku }
+    const contextValue = { route, handleSignIn, handleSignOut, sudoku, token };
     return (
       <AppContext.Provider value={contextValue}>
-        {this.renderPage()}
+        <>
+          <Navbar/>
+          {this.renderPage()}
+        </>
       </AppContext.Provider>
     );
   }

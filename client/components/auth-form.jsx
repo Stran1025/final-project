@@ -143,6 +143,7 @@ export default class AuthForm extends React.Component {
           <div className={'username-modal ' + modalVisibility}>
             <div className='card align-self-center'>
               {this.state.error}
+              <button className='btn btn-primary' onClick={this.closeModal}>Return</button>
             </div>
           </div>
           <div className="mb-3">
