@@ -7,6 +7,7 @@ class Board extends React.Component {
       isPencil: false,
       previousMove: [],
       selected: null,
+      solution: [],
       challenge: [],
       layout: [
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
@@ -30,7 +31,8 @@ class Board extends React.Component {
     fetch('/api/sudoku')
       .then(res => res.json())
       .then(data => {
-        this.setState({ challenge: data.challenge });
+        const { challenge, solution } = data;
+        this.setState({ challenge, solution });
       })
       .catch(err => console.error('Error:', err));
   }
@@ -130,17 +132,12 @@ class Board extends React.Component {
           <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
             <tbody>
               {this.state.challenge.map((element, index) => {
-                const duplicates = element.filter((item, index) => element.indexOf(item) !== index && item !== 0);
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
                     let isIncorrect = ' ';
-                    if (duplicates.length) {
-                      duplicates.forEach(ele => {
-                        if (ele === element) {
-                          isIncorrect = ' bg-danger';
-                        }
-                      });
+                    if (this.state.challenge[index][i] !== this.state.solution[index][i] && this.state.challenge[index][i] !== 0) {
+                      isIncorrect = ' bg-danger';
                     }
                     let digit = this.state.challenge[index][i];
                     if (!digit) {
