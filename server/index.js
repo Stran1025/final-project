@@ -5,6 +5,7 @@ const errorMiddleware = require('./error-middleware');
 const pg = require('pg');
 const argon2 = require('argon2');
 const ClientError = require('./client-error');
+const authorizationMiddleware = require('./token-verify-middleware');
 const jwt = require('jsonwebtoken');
 
 const db = new pg.Pool({
@@ -104,11 +105,9 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.use(authorizationMiddleware);
+
 app.get('/api/profile', (req, res, next) => {
-  if (!req.headers['x-access-token']) {
-    throw new ClientError(401, 'authentication required');
-  }
-  req.user = jwt.verify(req.headers['x-access-token'], process.env.TOKEN_SECRET);
   const sql = `
     select "firstName"
       from "users"
