@@ -1,5 +1,4 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
 
 class Board extends React.Component {
   constructor(props) {
@@ -8,7 +7,7 @@ class Board extends React.Component {
       isPencil: false,
       previousMove: [],
       selected: null,
-      challenge: this.props.challenge,
+      challenge: [],
       layout: [
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
@@ -25,6 +24,15 @@ class Board extends React.Component {
     this.handleUndo = this.handleUndo.bind(this);
     this.togglePencil = this.togglePencil.bind(this);
     this.handleEraser = this.handleEraser.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/api/sudoku')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ challenge: data.challenge });
+      })
+      .catch(err => console.error('Error:', err));
   }
 
   handleBoardClick(event) {
@@ -122,9 +130,18 @@ class Board extends React.Component {
           <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
             <tbody>
               {this.state.challenge.map((element, index) => {
+                const duplicates = element.filter((item, index) => element.indexOf(item) !== index && item !== 0);
                 return (
                   <tr key={index} data-row={index} className='table-light'>
                   {this.state.challenge[index].map((element, i) => {
+                    let isIncorrect = ' ';
+                    if (duplicates.length) {
+                      duplicates.forEach(ele => {
+                        if (ele === element) {
+                          isIncorrect = ' bg-danger';
+                        }
+                      });
+                    }
                     let digit = this.state.challenge[index][i];
                     if (!digit) {
                       digit = ' ';
@@ -135,7 +152,7 @@ class Board extends React.Component {
                     }
                     if (Array.isArray(digit)) {
                       return (
-                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + 'm-0 p-0 '}>
+                        <td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + ' m-0 p-0 '}>
                           <div className='d-inline-flex flex-wrap align-middle' data-row={index}>
                             {digit.map((ele, key) => {
                               let value = digit[key];
@@ -150,7 +167,7 @@ class Board extends React.Component {
                         </td>
                       );
                     }
-                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected}>{digit}</td>);
+                    return (<td key={i} data-col={i} className={this.state.layout[index][i] + isSelected + isIncorrect}>{digit}</td>);
                   })}
                 </tr>
                 );

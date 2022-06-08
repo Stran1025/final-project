@@ -1,5 +1,6 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
+import Board from '../components/board';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -15,12 +16,13 @@ export default class Home extends React.Component {
   render() {
     return (
         <div className='container'>
-          <div className='row half-height'></div>
+          <Board challenge={this.context.sudoku}/>
+          {/* <div className='row half-height'></div>
           <div className="row">
             <div className="col-12 text-center align-middle">
               <button className="btn btn-info" onClick={this.getGame}>New Game</button>
             </div>
-          </div>
+          </div> */}
         </div>
     );
   }
