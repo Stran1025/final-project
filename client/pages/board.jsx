@@ -151,13 +151,14 @@ class Board extends React.Component {
     return (
       <div className="container">
         <div className='row'>
-          <div className='col-12 col-sm-12 col-lg-4'>
+          <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end'>
               <span>{this.state.timer.minute}</span>
               <span>:</span>
               <span className='me-1'>{this.state.timer.second}</span>
               <i className="far fa-circle-pause" onClick={this.toggleTimer}></i>
             </p>
+            <div className="board-modal"></div>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
               <tbody>
                 {this.state.challenge.map((element, index) => {
