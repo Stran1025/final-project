@@ -9,7 +9,7 @@ export default class Home extends React.Component {
   }
 
   getGame() {
-
+    window.location.hash = '#board';
   }
 
   render() {

@@ -1,5 +1,4 @@
 import React from 'react';
-// import Board from './components/board';
 import 'bootstrap/dist/css/bootstrap.css';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
@@ -7,6 +6,7 @@ import Auth from './pages/auth';
 import Navbar from './components/navbar';
 import Home from './pages/home';
 import Profile from './pages/profile';
+import Board from './pages/board';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,7 +14,6 @@ export default class App extends React.Component {
     this.state = {
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
-      sudoku: null,
       token: null
     };
     this.handleSignIn = this.handleSignIn.bind(this);
@@ -22,12 +21,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/sudoku')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ sudoku: data.challenge });
-      })
-      .catch(err => console.error('Error:', err));
     window.addEventListener('hashchange', () => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
@@ -35,15 +28,19 @@ export default class App extends React.Component {
     this.setState({ isAuthorizing: false, token });
   }
 
+  handleNewGame() {
+
+  }
+
   handleSignIn(result) {
-    const { user, token } = result;
+    const { token } = result;
     window.localStorage.setItem('sudoku-token', token);
-    this.setState({ user });
+    this.setState({ token });
   }
 
   handleSignOut() {
     window.localStorage.removeItem('sudoku-token');
-    this.setState({ user: null });
+    this.setState({ token: null });
   }
 
   renderPage() {
@@ -57,14 +54,17 @@ export default class App extends React.Component {
     if (path === 'profile') {
       return <Profile/>;
     }
+    if (path === 'board') {
+      return <Board/>;
+    }
     return (<h1>Not Found</h1>);
   }
 
   render() {
     if (this.state.isAuthorizing) return null;
-    const { route, sudoku, token } = this.state;
+    const { route, token } = this.state;
     const { handleSignIn, handleSignOut } = this;
-    const contextValue = { route, handleSignIn, handleSignOut, sudoku, token };
+    const contextValue = { route, handleSignIn, handleSignOut, token };
     return (
       <AppContext.Provider value={contextValue}>
         <>

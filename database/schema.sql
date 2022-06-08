@@ -12,6 +12,7 @@ CREATE TABLE "public"."sudokus" (
 	"challenge" json NOT NULL,
 	"createdAt" timestamptz NOT NULL DEFAULT now(),
 	"points" int,
+	"solution" json NOT NULL,
 	CONSTRAINT "sudokus_pk" PRIMARY KEY ("sudokuId")
 ) WITH (
   OIDS=FALSE

@@ -33,8 +33,8 @@ app.get('/api/sudoku', (req, res, next) => {
   `;
   db.query(sql)
     .then(result => {
-      const { challenge, sudokuId } = result.rows[0];
-      res.json({ challenge, sudokuId });
+      const { challenge, solution, points, sudokuId } = result.rows[0];
+      res.json({ challenge, sudokuId, solution, points });
     })
     .catch(err => next(err));
 });
