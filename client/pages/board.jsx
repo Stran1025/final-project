@@ -28,6 +28,7 @@ class Board extends React.Component {
     this.togglePencil = this.togglePencil.bind(this);
     this.handleEraser = this.handleEraser.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
+    this.pauseTimer = this.pauseTimer.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +40,10 @@ class Board extends React.Component {
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
+  }
+
+  pauseTimer() {
+    clearInterval(this.timer);
   }
 
   handleTimer() {
@@ -146,7 +151,7 @@ class Board extends React.Component {
               <span>{this.state.timer.minute}</span>
               <span>:</span>
               <span className='me-1'>{this.state.timer.second}</span>
-              <i className="far fa-circle-pause"></i>
+              <i className="far fa-circle-pause" onClick={this.pauseTimer}></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
               <tbody>
