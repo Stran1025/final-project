@@ -48,9 +48,13 @@ table.sudoku-board {
 
 .board-modal {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: 375px;
+  width: 375px;
   background: rgb(255, 255, 255);
+}
+
+.test {
+  height: 50%;
 }
 
 .numpad {

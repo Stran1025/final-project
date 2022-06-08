@@ -60,6 +60,10 @@ class Board extends React.Component {
   }
 
   handleBoardClick(event) {
+    if (event.target.hasAttribute('data-timer')) {
+      this.toggleTimer();
+      return;
+    }
     const row = event.target.parentElement.getAttribute('data-row');
     const col = event.target.getAttribute('data-col');
     let val = this.state.challenge[row][col];
@@ -148,6 +152,10 @@ class Board extends React.Component {
     if (this.state.isPencil) {
       pencil = ' bg-primary';
     }
+    let timer = 'd-none';
+    if (this.state.isTimerPaused) {
+      timer = 'd-flex';
+    }
     return (
       <div className="container">
         <div className='row'>
@@ -158,8 +166,10 @@ class Board extends React.Component {
               <span className='me-1'>{this.state.timer.second}</span>
               <i className="far fa-circle-pause" onClick={this.toggleTimer}></i>
             </p>
-            <div className="board-modal"></div>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
+              <div className={'board-modal justify-content-center ' + timer} data-timer="timer">
+                <i className='far fa-circle-play fa-2xl align-self-center' data-timer="timer"></i>
+              </div>
               <tbody>
                 {this.state.challenge.map((element, index) => {
                   return (
