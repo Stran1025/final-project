@@ -246,6 +246,11 @@ class Board extends React.Component {
                 <button className='num p-2 m-1' value={9}>9</button>
               </div>
             </div>
+            <div className="row mt-3">
+              <div className="col-12">
+                <button className='btn btn-primary'>Submit</button>
+              </div>
+            </div>
           </div>
 
         </div>
