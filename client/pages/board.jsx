@@ -4,6 +4,8 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isTimerPaused: false,
+      timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
       previousMove: [],
       selected: null,
@@ -25,6 +27,8 @@ class Board extends React.Component {
     this.handleUndo = this.handleUndo.bind(this);
     this.togglePencil = this.togglePencil.bind(this);
     this.handleEraser = this.handleEraser.bind(this);
+    this.handleTimer = this.handleTimer.bind(this);
+    this.toggleTimer = this.toggleTimer.bind(this);
   }
 
   componentDidMount() {
@@ -33,11 +37,33 @@ class Board extends React.Component {
       .then(data => {
         const { challenge, solution } = data;
         this.setState({ challenge, solution });
+        this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
   }
 
+  toggleTimer() {
+    if (this.state.isTimerPaused) {
+      this.timer = setInterval(this.handleTimer, 1000);
+    } else {
+      clearInterval(this.timer);
+    }
+    this.setState({ isTimerPaused: !this.state.isTimerPaused });
+  }
+
+  handleTimer() {
+    let totalSecond = this.state.timer.totalSecond;
+    totalSecond++;
+    const minute = Math.floor(totalSecond / 60);
+    const second = totalSecond % 60;
+    this.setState({ timer: { minute, second, totalSecond } });
+  }
+
   handleBoardClick(event) {
+    if (event.target.hasAttribute('data-timer')) {
+      this.toggleTimer();
+      return;
+    }
     const row = event.target.parentElement.getAttribute('data-row');
     const col = event.target.getAttribute('data-col');
     let val = this.state.challenge[row][col];
@@ -126,17 +152,26 @@ class Board extends React.Component {
     if (this.state.isPencil) {
       pencil = ' bg-primary';
     }
+    let timerIcon = 'fa-circle-pause';
+    let timer = 'd-none';
+    if (this.state.isTimerPaused) {
+      timer = 'd-flex';
+      timerIcon = 'fa-circle-play';
+    }
     return (
       <div className="container">
         <div className='row'>
-          <div className='col-12 col-sm-12 col-lg-4'>
+          <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end'>
-              <span>00</span>
+              <span>{this.state.timer.minute}</span>
               <span>:</span>
-              <span className='me-1'>00</span>
-              <i className="far fa-circle-pause"></i>
+              <span className='me-1'>{this.state.timer.second}</span>
+              <i className={'far ' + timerIcon} onClick={this.toggleTimer}></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
+              <div className={'board-modal justify-content-center ' + timer} data-timer="timer">
+                <i className='far fa-circle-play fa-2xl align-self-center' data-timer="timer"></i>
+              </div>
               <tbody>
                 {this.state.challenge.map((element, index) => {
                   return (

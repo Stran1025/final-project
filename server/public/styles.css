@@ -46,6 +46,14 @@ table.sudoku-board {
   left: 0;
 }
 
+.board-modal {
+  position: absolute;
+  height: 375px;
+  width: 375px;
+  background: rgb(255, 255, 255);
+  border: 1px solid black;
+}
+
 .numpad {
   width: 375px;
   flex-wrap: wrap;
