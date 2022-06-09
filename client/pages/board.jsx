@@ -152,9 +152,11 @@ class Board extends React.Component {
     if (this.state.isPencil) {
       pencil = ' bg-primary';
     }
+    let timerIcon = 'fa-circle-pause';
     let timer = 'd-none';
     if (this.state.isTimerPaused) {
       timer = 'd-flex';
+      timerIcon = 'fa-circle-play';
     }
     return (
       <div className="container">
@@ -164,7 +166,7 @@ class Board extends React.Component {
               <span>{this.state.timer.minute}</span>
               <span>:</span>
               <span className='me-1'>{this.state.timer.second}</span>
-              <i className="far fa-circle-pause" onClick={this.toggleTimer}></i>
+              <i className={'far ' + timerIcon} onClick={this.toggleTimer}></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
               <div className={'board-modal justify-content-center ' + timer} data-timer="timer">
