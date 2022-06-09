@@ -141,6 +141,12 @@ app.get('/api/profile', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/solution', (req, res, next) => {
+  // const sql = `
+  //   insert into "solution" ("userId", "sudokuId", "time", "isFinished")
+  // `
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

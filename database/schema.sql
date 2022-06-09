@@ -37,10 +37,9 @@ CREATE TABLE "public"."solutions" (
 	"solutionId" serial NOT NULL,
 	"userId" int NOT NULL,
 	"sudokuId" int NOT NULL,
-	"solution" json NOT NULL,
 	"time" int NOT NULL,
 	"isFinished" BOOLEAN NOT NULL DEFAULT false,
-	"lastPlayed" timestamptz NOT NULL,
+	"lastPlayed" timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT "solutions_pk" PRIMARY KEY ("solutionId")
 ) WITH (
   OIDS=FALSE
