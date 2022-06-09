@@ -153,9 +153,13 @@ app.post('/api/solution', (req, res, next) => {
   const sql = `
     insert into "solution" ("userId", "sudokuId", "time", "isFinished")
     values ($1, $2, $3, $3)
+    returning *
   `;
   const { sudokuId, time } = req.body;
-  db.query(sql, [req.user.userId, sudokuId, time, true]);
+  db.query(sql, [req.user.userId, sudokuId, time, true])
+    .then(result => {
+      res.json(result.rows[0]);
+    });
 });
 
 app.use(errorMiddleware);
