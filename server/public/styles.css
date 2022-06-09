@@ -51,10 +51,7 @@ table.sudoku-board {
   height: 375px;
   width: 375px;
   background: rgb(255, 255, 255);
-}
-
-.test {
-  height: 50%;
+  border: 1px solid black;
 }
 
 .numpad {
