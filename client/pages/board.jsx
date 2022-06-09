@@ -7,6 +7,7 @@ class Board extends React.Component {
       isTimerPaused: false,
       timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
+      error: null,
       previousMove: [],
       selected: null,
       solution: [],
@@ -29,6 +30,7 @@ class Board extends React.Component {
     this.handleEraser = this.handleEraser.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
     this.toggleTimer = this.toggleTimer.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +42,35 @@ class Board extends React.Component {
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
+  }
+
+  handleSubmit() {
+    const { challenge, solution } = this.state;
+    challenge.flat().forEach((element, index) => {
+      if (element === 0) {
+        this.setState({ error: 'Incomplete puzzle' });
+        return;
+      }
+      const solutionArr = solution.flat();
+      if (element !== solutionArr[index]) {
+        this.setState({ error: 'Incorrect solution' });
+
+      }
+    });
+    fetch('/api/sudoku', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': this.context.token
+      },
+      body: JSON.stringify()
+    })
+      .then(res => {
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   toggleTimer() {
@@ -248,7 +279,7 @@ class Board extends React.Component {
             </div>
             <div className="row mt-3">
               <div className="col-12">
-                <button className='btn btn-primary'>Submit</button>
+                <button className='btn btn-primary' onClick={this.handleSubmit}>Submit</button>
               </div>
             </div>
           </div>
