@@ -32,6 +32,7 @@ class Board extends React.Component {
     this.handleTimer = this.handleTimer.bind(this);
     this.toggleTimer = this.toggleTimer.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeErrorModal = this.closeErrorModal.bind(this);
   }
 
   componentDidMount() {
@@ -186,6 +187,10 @@ class Board extends React.Component {
     this.setState({ challenge, previousMove });
   }
 
+  closeErrorModal() {
+    this.setState({ error: null });
+  }
+
   render() {
     let pencil = '';
     if (this.state.isPencil) {
@@ -197,9 +202,20 @@ class Board extends React.Component {
       timer = 'd-flex';
       timerIcon = 'fa-circle-play';
     }
+    let error = 'd-none';
+    if (this.state.error) {
+      error = 'd-flex';
+    }
     return (
-      <div className="container">
-        <div className='row'>
+      <div className="container position-relative">
+        <div className={'error-modal justify-content-center ' + error}>
+          <div className='card w-25 h-50 align-self-center text-center'>
+            <h2>Error</h2>
+            <p>{this.state.error}</p>
+            <button className='btn btn-primary w-50 m-auto' onClick={this.closeErrorModal}>Back</button>
+          </div>
+        </div>
+        <div className='row justify-content-center'>
           <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end'>
               <span>{this.state.timer.minute}</span>
