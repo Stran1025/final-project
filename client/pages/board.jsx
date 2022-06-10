@@ -220,7 +220,7 @@ class Board extends React.Component {
     return (
       <div className="container position-relative">
         <div className={'error-modal justify-content-center ' + display}>
-          <div className='card w-25 h-50 align-self-center text-center'>
+          <div className='card w-50 align-self-center text-center p-3'>
             <h2>{title}</h2>
             <p>{message}</p>
             <button className={'btn w-50 m-auto' + buttonColor} onClick={this.closeErrorModal}>{buttonTitle}</button>
