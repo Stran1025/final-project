@@ -45,7 +45,7 @@ export default class Profile extends React.Component {
             <div className='mb-3'>
               <p>{'Level: ' + '1'}</p>
               <div className="progress">
-                <div className="progress-bar w-25" aria-valuenow={0} aria-valuemin="0" aria-valuemax="100"></div>
+                <div className="progress-bar" aria-valuenow={0} aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
           </div>

@@ -132,8 +132,19 @@ app.get('/api/profile', (req, res, next) => {
           `;
           db.query(createdSql, [req.user.userId])
             .then(result => {
+              const levelSql = `
+                select *
+                from "levels"
+                where "experiencePoints" < $1
+                order by "experiencePoints" desc
+                limit 1;
+              `;
               user.created = result.rows[0].created;
-              res.json(user);
+              db.query(levelSql, [user.exp])
+                .then(result => {
+                  user.points = result.rows;
+                  res.json(user);
+                });
             })
             .catch(err => next(err));
         })
