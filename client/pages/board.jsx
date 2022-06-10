@@ -14,7 +14,7 @@ class Board extends React.Component {
       selected: null,
       solution: [],
       challenge: [],
-      challengeId: null,
+      challengeInfo: {},
       layout: [
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
@@ -41,15 +41,15 @@ class Board extends React.Component {
     fetch('/api/sudoku')
       .then(res => res.json())
       .then(data => {
-        const { challenge, solution, sudokuId } = data;
-        this.setState({ challenge, solution, challengeId: sudokuId });
+        const { challenge, solution, sudokuId, points } = data;
+        this.setState({ challenge, solution, challengeInfo: { id: sudokuId, points } });
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
   }
 
   handleSubmit() {
-    const { challenge, timer, solution, challengeId } = this.state;
+    const { challenge, timer, solution, challengeInfo } = this.state;
     const token = this.context.token;
     let count = 0;
     challenge.flat().forEach((element, index) => {
@@ -73,14 +73,14 @@ class Board extends React.Component {
         'Content-Type': 'application/json',
         'x-access-token': this.context.token
       },
-      body: JSON.stringify({ token, solution: challenge, timer, sudokuId: challengeId })
+      body: JSON.stringify({ token, solution: challenge, timer, sudokuId: challengeInfo.id, points: challengeInfo.points })
     })
       .then(res => res.json())
       .then(data => {
-        const { time } = data;
+        const { time, points } = data;
         const minute = Math.floor(time / 60);
         const second = time % 60;
-        const message = `Challenge finished in ${minute} minutes and ${second} seconds`;
+        const message = `Challenge finished in ${minute} minutes and ${second} seconds. Gained ${points} experience points`;
         this.setState({ success: message });
       })
       .catch(err => {

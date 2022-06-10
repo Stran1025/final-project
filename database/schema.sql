@@ -52,6 +52,7 @@ CREATE TABLE "public"."levels" (
 	"levelId" serial NOT NULL,
 	"title" TEXT NOT NULL,
 	"experiencePoints" int NOT NULL,
+	"pointsNeeded" int NOT NULL,
 	CONSTRAINT "levels_pk" PRIMARY KEY ("levelId")
 ) WITH (
   OIDS=FALSE

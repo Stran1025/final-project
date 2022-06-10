@@ -117,22 +117,37 @@ app.get('/api/profile', (req, res, next) => {
     .then(result => {
       const [user] = result.rows;
       const completedSql = `
-        select count("solutionId") as "completed"
+        select count("solutionId") as "completed", sum("points") as "experience"
           from "solutions"
           where "userId" = $1 and "isFinished" = true;
       `;
       db.query(completedSql, [req.user.userId])
         .then(result => {
+          user.exp = result.rows[0].experience;
           user.completed = result.rows[0].completed;
           const createdSql = `
             select count("sudokuId") as "created"
             from "sudokus"
             where "userId" = $1
           `;
+          if (!user.exp) {
+            user.exp = 0;
+          }
           db.query(createdSql, [req.user.userId])
             .then(result => {
+              const levelSql = `
+                select *
+                from "levels"
+                where "experiencePoints" <= $1
+                order by "experiencePoints" desc
+                limit 1;
+              `;
               user.created = result.rows[0].created;
-              res.json(user);
+              db.query(levelSql, [user.exp])
+                .then(result => {
+                  user.level = result.rows[0];
+                  res.json(user);
+                });
             })
             .catch(err => next(err));
         })
@@ -143,12 +158,12 @@ app.get('/api/profile', (req, res, next) => {
 
 app.post('/api/solution', (req, res, next) => {
   const sql = `
-    insert into "solutions" ("userId", "sudokuId", "time", "isFinished")
-    values ($1, $2, $3, $4)
+    insert into "solutions" ("userId", "sudokuId", "time", "isFinished", "points")
+    values ($1, $2, $3, $4, $5)
     returning *
   `;
-  const { sudokuId, timer } = req.body;
-  db.query(sql, [req.user.userId, sudokuId, timer.totalSecond, true])
+  const { sudokuId, timer, points } = req.body;
+  db.query(sql, [req.user.userId, sudokuId, timer.totalSecond, true, points])
     .then(result => {
       res.json(result.rows[0]);
     })
