@@ -123,6 +123,7 @@ app.get('/api/profile', (req, res, next) => {
       `;
       db.query(completedSql, [req.user.userId])
         .then(result => {
+          user.exp = result.rows[0].experience;
           user.completed = result.rows[0].completed;
           const createdSql = `
             select count("sudokuId") as "created"
