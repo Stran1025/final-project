@@ -14,6 +14,7 @@ class Board extends React.Component {
       selected: null,
       solution: [],
       challenge: [],
+      challengeId: null,
       layout: [
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
@@ -40,15 +41,15 @@ class Board extends React.Component {
     fetch('/api/sudoku')
       .then(res => res.json())
       .then(data => {
-        const { challenge, solution } = data;
-        this.setState({ challenge, solution });
+        const { challenge, solution, sudokuId } = data;
+        this.setState({ challenge, solution, challengeId: sudokuId });
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
   }
 
   handleSubmit() {
-    const { challenge, timer, solution } = this.state;
+    const { challenge, timer, solution, challengeId } = this.state;
     const token = this.context.token;
     let count = 0;
     challenge.flat().forEach((element, index) => {
@@ -61,22 +62,22 @@ class Board extends React.Component {
       if (element !== solutionArr[index]) {
         count++;
         this.setState({ error: 'Incorrect solution' });
-
       }
     });
     if (count) {
       return;
     }
-    fetch('/api/sudoku', {
+    fetch('/api/solution', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-access-token': this.context.token
       },
-      body: JSON.stringify({ token, solution: challenge, timer })
+      body: JSON.stringify({ token, solution: challenge, timer, sudokuId: challengeId })
     })
-      .then(res => {
-
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ success: data });
       })
       .catch(err => {
         console.error(err);

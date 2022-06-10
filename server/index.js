@@ -105,14 +105,6 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/solution', (req, res, next) => {
-  if (req.header['x-access-token']) {
-    next();
-  }
-  const { time } = req.body;
-  res.json({ time });
-});
-
 app.use(authorizationMiddleware);
 
 app.get('/api/profile', (req, res, next) => {
@@ -151,15 +143,16 @@ app.get('/api/profile', (req, res, next) => {
 
 app.post('/api/solution', (req, res, next) => {
   const sql = `
-    insert into "solution" ("userId", "sudokuId", "time", "isFinished")
-    values ($1, $2, $3, $3)
+    insert into "solutions" ("userId", "sudokuId", "time", "isFinished")
+    values ($1, $2, $3, $4)
     returning *
   `;
-  const { sudokuId, time } = req.body;
-  db.query(sql, [req.user.userId, sudokuId, time, true])
+  const { sudokuId, timer } = req.body;
+  db.query(sql, [req.user.userId, sudokuId, timer.totalSecond, true])
     .then(result => {
       res.json(result.rows[0]);
-    });
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
