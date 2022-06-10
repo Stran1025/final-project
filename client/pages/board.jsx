@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 
 class Board extends React.Component {
   constructor(props) {
@@ -45,25 +46,32 @@ class Board extends React.Component {
   }
 
   handleSubmit() {
-    const { challenge, solution } = this.state;
+    const { challenge, timer, solution } = this.state;
+    const token = this.context.token;
+    let count = 0;
     challenge.flat().forEach((element, index) => {
       if (element === 0) {
+        count++;
         this.setState({ error: 'Incomplete puzzle' });
         return;
       }
       const solutionArr = solution.flat();
       if (element !== solutionArr[index]) {
+        count++;
         this.setState({ error: 'Incorrect solution' });
 
       }
     });
+    if (count) {
+      return;
+    }
     fetch('/api/sudoku', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-access-token': this.context.token
       },
-      body: JSON.stringify()
+      body: JSON.stringify({ token, solution: challenge, timer })
     })
       .then(res => {
 
@@ -290,4 +298,5 @@ class Board extends React.Component {
   }
 }
 
+Board.contextType = AppContext;
 export default Board;
