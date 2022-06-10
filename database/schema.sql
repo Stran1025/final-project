@@ -11,7 +11,7 @@ CREATE TABLE "public"."sudokus" (
 	"userId" int DEFAULT null,
 	"challenge" json NOT NULL,
 	"createdAt" timestamptz NOT NULL DEFAULT now(),
-	"points" int,
+	"points" int NOT NULL DEFAULT 0,
 	"solution" json NOT NULL,
 	CONSTRAINT "sudokus_pk" PRIMARY KEY ("sudokuId")
 ) WITH (
@@ -38,6 +38,7 @@ CREATE TABLE "public"."solutions" (
 	"userId" int NOT NULL,
 	"sudokuId" int NOT NULL,
 	"time" int NOT NULL,
+	"points" int NOT NULL,
 	"isFinished" BOOLEAN NOT NULL DEFAULT false,
 	"lastPlayed" timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT "solutions_pk" PRIMARY KEY ("solutionId")
