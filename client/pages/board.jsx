@@ -77,7 +77,11 @@ class Board extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({ success: data });
+        const { time } = data;
+        const minute = Math.floor(time / 60);
+        const second = time % 60;
+        const message = `Challenge finished in ${minute} minutes and ${second} seconds`;
+        this.setState({ success: message });
       })
       .catch(err => {
         console.error(err);
@@ -202,15 +206,19 @@ class Board extends React.Component {
       timerIcon = 'fa-circle-play';
     }
     const title = this.state.success ? 'Congratulation' : 'Error';
-    const message = this.state.success ? this.state.success.message : this.state.error;
-    const error = this.state.error ? 'd-flex' : 'd-none';
+    const message = this.state.success ? this.state.success : this.state.error;
+    const buttonTitle = this.state.success ? 'Home' : 'Back';
+    let display = 'd-none';
+    if (this.state.error || this.state.success) {
+      display = 'd-flex';
+    }
     return (
       <div className="container position-relative">
-        <div className={'error-modal justify-content-center ' + error}>
+        <div className={'error-modal justify-content-center ' + display}>
           <div className='card w-25 h-50 align-self-center text-center'>
             <h2>{title}</h2>
             <p>{message}</p>
-            <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>Back</button>
+            <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>{buttonTitle}</button>
           </div>
         </div>
         <div className='row justify-content-center'>
