@@ -44,14 +44,17 @@ export default class Profile extends React.Component {
                 <p className='fs-4 fw-bold'>{this.state.completed}<br></br><span className='fw-normal fs-6'>Completed</span></p>
               </div>
               <div className="border info-box text-center d-flex align-items-center justify-content-center">
-                <p className='fs-4 fw-bold'>{this.state.level.title}<br></br><span className='fw-normal fs-6'>Title</span></p>
+                <p className='fs-6 fw-bold'>{this.state.level.title}<br></br><span className='fw-normal fs-6'>Title</span></p>
               </div>
               <div className="border info-box text-center d-flex align-items-center justify-content-center">
                 <p className='fs-4 fw-bold'>{this.state.created}<br></br><span className='fw-normal fs-6'>Created</span></p>
               </div>
             </div>
-            <div className='mb-3'>
-              <p>{'Level: ' + this.state.level.levelId}</p>
+            <div className='mt-3 mb-3'>
+              <div className='d-flex justify-content-between'>
+                <p>{'Level: ' + this.state.level.levelId}</p>
+                <p>{`${exp - experiencePoints} / ${pointsNeeded}`}</p>
+              </div>
               <div className="progress">
                 <div className="progress-bar" aria-valuenow={0} aria-valuemin="0" aria-valuemax="100" style={style}></div>
               </div>
