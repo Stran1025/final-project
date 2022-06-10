@@ -28,7 +28,7 @@ app.get('/api/sudoku', (req, res, next) => {
   const sql = `
             select *
               from "sudokus"
-             order by random()
+             where "points" = '300'
             limit 1
   `;
   db.query(sql)

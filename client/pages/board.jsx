@@ -9,6 +9,7 @@ class Board extends React.Component {
       timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
       error: null,
+      success: null,
       previousMove: [],
       selected: null,
       solution: [],
@@ -192,26 +193,22 @@ class Board extends React.Component {
   }
 
   render() {
-    let pencil = '';
-    if (this.state.isPencil) {
-      pencil = ' bg-primary';
-    }
+    const pencil = this.state.isPencil ? ' bg-primary' : ' ';
     let timerIcon = 'fa-circle-pause';
     let timer = 'd-none';
     if (this.state.isTimerPaused) {
       timer = 'd-flex';
       timerIcon = 'fa-circle-play';
     }
-    let error = 'd-none';
-    if (this.state.error) {
-      error = 'd-flex';
-    }
+    const title = this.state.success ? 'Congratulation' : 'Error';
+    const message = this.state.success ? this.state.success.message : this.state.error;
+    const error = this.state.error ? 'd-flex' : 'd-none';
     return (
       <div className="container position-relative">
         <div className={'error-modal justify-content-center ' + error}>
           <div className='card w-25 h-50 align-self-center text-center'>
-            <h2>Error</h2>
-            <p>{this.state.error}</p>
+            <h2>{title}</h2>
+            <p>{message}</p>
             <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>Back</button>
           </div>
         </div>
