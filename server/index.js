@@ -130,6 +130,9 @@ app.get('/api/profile', (req, res, next) => {
             from "sudokus"
             where "userId" = $1
           `;
+          if (!user.exp) {
+            user.exp = 0;
+          }
           db.query(createdSql, [req.user.userId])
             .then(result => {
               const levelSql = `
