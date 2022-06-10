@@ -212,7 +212,7 @@ class Board extends React.Component {
           <div className='card w-25 h-50 align-self-center text-center'>
             <h2>Error</h2>
             <p>{this.state.error}</p>
-            <button className='btn btn-primary w-50 m-auto' onClick={this.closeErrorModal}>Back</button>
+            <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>Back</button>
           </div>
         </div>
         <div className='row justify-content-center'>
