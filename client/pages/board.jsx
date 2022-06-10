@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 
 class Board extends React.Component {
   constructor(props) {
@@ -7,10 +8,13 @@ class Board extends React.Component {
       isTimerPaused: false,
       timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
+      error: null,
+      success: null,
       previousMove: [],
       selected: null,
       solution: [],
       challenge: [],
+      challengeId: null,
       layout: [
         ['top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top cell', 'top left cell', 'top cell', 'top right cell'],
         ['left cell', 'cell', 'cell', 'left cell', 'cell', 'cell', 'left cell', 'cell', 'right cell'],
@@ -29,17 +33,59 @@ class Board extends React.Component {
     this.handleEraser = this.handleEraser.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
     this.toggleTimer = this.toggleTimer.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeErrorModal = this.closeErrorModal.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/sudoku')
       .then(res => res.json())
       .then(data => {
-        const { challenge, solution } = data;
-        this.setState({ challenge, solution });
+        const { challenge, solution, sudokuId } = data;
+        this.setState({ challenge, solution, challengeId: sudokuId });
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
+  }
+
+  handleSubmit() {
+    const { challenge, timer, solution, challengeId } = this.state;
+    const token = this.context.token;
+    let count = 0;
+    challenge.flat().forEach((element, index) => {
+      if (element === 0) {
+        count++;
+        this.setState({ error: 'Incomplete puzzle' });
+        return;
+      }
+      const solutionArr = solution.flat();
+      if (element !== solutionArr[index]) {
+        count++;
+        this.setState({ error: 'Incorrect solution' });
+      }
+    });
+    if (count) {
+      return;
+    }
+    fetch('/api/solution', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': this.context.token
+      },
+      body: JSON.stringify({ token, solution: challenge, timer, sudokuId: challengeId })
+    })
+      .then(res => res.json())
+      .then(data => {
+        const { time } = data;
+        const minute = Math.floor(time / 60);
+        const second = time % 60;
+        const message = `Challenge finished in ${minute} minutes and ${second} seconds`;
+        this.setState({ success: message });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   toggleTimer() {
@@ -147,20 +193,35 @@ class Board extends React.Component {
     this.setState({ challenge, previousMove });
   }
 
+  closeErrorModal() {
+    this.setState({ error: null });
+  }
+
   render() {
-    let pencil = '';
-    if (this.state.isPencil) {
-      pencil = ' bg-primary';
-    }
+    const pencil = this.state.isPencil ? ' bg-primary' : ' ';
     let timerIcon = 'fa-circle-pause';
     let timer = 'd-none';
     if (this.state.isTimerPaused) {
       timer = 'd-flex';
       timerIcon = 'fa-circle-play';
     }
+    const title = this.state.success ? 'Congratulation' : 'Error';
+    const message = this.state.success ? this.state.success : this.state.error;
+    const buttonTitle = this.state.success ? 'Home' : 'Back';
+    let display = 'd-none';
+    if (this.state.error || this.state.success) {
+      display = 'd-flex';
+    }
     return (
-      <div className="container">
-        <div className='row'>
+      <div className="container position-relative">
+        <div className={'error-modal justify-content-center ' + display}>
+          <div className='card w-25 h-50 align-self-center text-center'>
+            <h2>{title}</h2>
+            <p>{message}</p>
+            <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>{buttonTitle}</button>
+          </div>
+        </div>
+        <div className='row justify-content-center'>
           <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end'>
               <span>{this.state.timer.minute}</span>
@@ -246,6 +307,11 @@ class Board extends React.Component {
                 <button className='num p-2 m-1' value={9}>9</button>
               </div>
             </div>
+            <div className="row mt-3">
+              <div className="col-12">
+                <button className='btn btn-primary' onClick={this.handleSubmit}>Submit</button>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -254,4 +320,5 @@ class Board extends React.Component {
   }
 }
 
+Board.contextType = AppContext;
 export default Board;
