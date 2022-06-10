@@ -135,14 +135,14 @@ app.get('/api/profile', (req, res, next) => {
               const levelSql = `
                 select *
                 from "levels"
-                where "experiencePoints" < $1
+                where "experiencePoints" <= $1
                 order by "experiencePoints" desc
                 limit 1;
               `;
               user.created = result.rows[0].created;
               db.query(levelSql, [user.exp])
                 .then(result => {
-                  user.points = result.rows;
+                  user.level = result.rows[0];
                   res.json(user);
                 });
             })
