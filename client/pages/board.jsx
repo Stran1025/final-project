@@ -194,7 +194,11 @@ class Board extends React.Component {
   }
 
   closeErrorModal() {
-    this.setState({ error: null });
+    if (this.state.error) {
+      this.setState({ error: null });
+      return;
+    }
+    window.location.hash = '#';
   }
 
   render() {
@@ -208,6 +212,7 @@ class Board extends React.Component {
     const title = this.state.success ? 'Congratulation' : 'Error';
     const message = this.state.success ? this.state.success : this.state.error;
     const buttonTitle = this.state.success ? 'Home' : 'Back';
+    const buttonColor = this.state.success ? ' btn-success' : ' btn-secondary';
     let display = 'd-none';
     if (this.state.error || this.state.success) {
       display = 'd-flex';
@@ -218,7 +223,7 @@ class Board extends React.Component {
           <div className='card w-25 h-50 align-self-center text-center'>
             <h2>{title}</h2>
             <p>{message}</p>
-            <button className='btn btn-secondary w-50 m-auto' onClick={this.closeErrorModal}>{buttonTitle}</button>
+            <button className={'btn w-50 m-auto' + buttonColor} onClick={this.closeErrorModal}>{buttonTitle}</button>
           </div>
         </div>
         <div className='row justify-content-center'>
