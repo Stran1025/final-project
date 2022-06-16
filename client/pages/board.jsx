@@ -229,9 +229,9 @@ class Board extends React.Component {
         <div className='row justify-content-center'>
           <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end'>
-              <span>{this.state.timer.minute}</span>
-              <span>:</span>
-              <span className='me-1'>{this.state.timer.second}</span>
+              <span className='clickable' onClick={this.toggleTimer}>{this.state.timer.minute}</span>
+              <span className='clickable' onClick={this.toggleTimer}>:</span>
+              <span className='me-1 clickable' onClick={this.toggleTimer}>{this.state.timer.second}</span>
               <i className={'far ' + timerIcon} onClick={this.toggleTimer}></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>

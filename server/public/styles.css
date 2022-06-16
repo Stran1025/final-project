@@ -34,7 +34,7 @@ table.sudoku-board {
 }
 
 .i {
-  margin-top: 25px;
+  margin-top: 1.5rem;
 }
 
 .username-modal {
@@ -83,7 +83,8 @@ table.sudoku-board {
 }
 
 i:hover,
-td:hover {
+td:hover,
+.clickable {
   cursor: pointer;
 }
 
@@ -102,4 +103,8 @@ td:hover {
 .info-box {
   width: 100px;
   height: 100px;
+}
+
+button:active {
+  transform: translateY(0.5rem);
 }
