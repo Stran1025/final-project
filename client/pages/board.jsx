@@ -288,11 +288,13 @@ class Board extends React.Component {
                   <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
                 </div>
               </div>
+              <div className="col-1"></div>
               <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
                 <div className={'i-wrapper' + pencil}>
                   <i className='fas fa-pencil fa-2xl i' onClick={this.togglePencil}></i>
                 </div>
               </div>
+              <div className="col-1"></div>
               <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
                 <div className='i-wrapper'>
                   <i className='fas fa-eraser fa-2xl i' onClick={this.handleEraser}></i>
