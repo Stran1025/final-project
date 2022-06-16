@@ -5,6 +5,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       isTimerPaused: false,
       timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
@@ -44,8 +45,10 @@ class Board extends React.Component {
         const { challenge, solution, sudokuId, points } = data;
         this.setState({ challenge, solution, challengeInfo: { id: sudokuId, points } });
         this.timer = setInterval(this.handleTimer, 1000);
+        this.setState({ isLoading: false });
       })
       .catch(err => console.error('Error:', err));
+    this.setState({ isLoading: true });
   }
 
   handleSubmit() {
@@ -213,12 +216,17 @@ class Board extends React.Component {
     const message = this.state.success ? this.state.success : this.state.error;
     const buttonTitle = this.state.success ? 'Home' : 'Back';
     const buttonColor = this.state.success ? ' btn-success' : ' btn-secondary';
+    const isLoading = this.state.isLoading ? '' : 'd-none';
+    const hideOnLoad = this.state.isLoading ? 'd-none' : '';
     let display = 'd-none';
     if (this.state.error || this.state.success) {
       display = 'd-flex';
     }
     return (
       <div className="container position-relative">
+        <div className={'spinner-border position-absolute start-50 ' + isLoading} role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
         <div className={'error-modal justify-content-center ' + display}>
           <div className='card w-50 align-self-center text-center p-3'>
             <h2>{title}</h2>
@@ -226,7 +234,7 @@ class Board extends React.Component {
             <button className={'btn w-50 m-auto' + buttonColor} onClick={this.closeErrorModal}>{buttonTitle}</button>
           </div>
         </div>
-        <div className='row justify-content-center'>
+        <div className={'row justify-content-center ' + hideOnLoad}>
           <div className='col-12 col-sm-12 col-lg-4 position-relative'>
             <p className='text-end clickable' onClick={this.toggleTimer}>
               <span>{this.state.timer.minute}</span>
