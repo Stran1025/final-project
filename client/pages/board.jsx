@@ -43,9 +43,8 @@ class Board extends React.Component {
       .then(res => res.json())
       .then(data => {
         const { challenge, solution, sudokuId, points } = data;
-        this.setState({ challenge, solution, challengeInfo: { id: sudokuId, points } });
+        this.setState({ challenge, solution, isLoading: false, challengeInfo: { id: sudokuId, points } });
         this.timer = setInterval(this.handleTimer, 1000);
-        this.setState({ isLoading: false });
       })
       .catch(err => console.error('Error:', err));
     this.setState({ isLoading: true });
