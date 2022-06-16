@@ -83,7 +83,8 @@ table.sudoku-board {
 }
 
 i:hover,
-td:hover {
+td:hover,
+.clickable {
   cursor: pointer;
 }
 
