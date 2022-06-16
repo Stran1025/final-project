@@ -5,6 +5,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       isTimerPaused: false,
       timer: { minute: 0, second: 0, totalSecond: 0 },
       isPencil: false,
@@ -42,10 +43,11 @@ class Board extends React.Component {
       .then(res => res.json())
       .then(data => {
         const { challenge, solution, sudokuId, points } = data;
-        this.setState({ challenge, solution, challengeInfo: { id: sudokuId, points } });
+        this.setState({ challenge, solution, isLoading: false, challengeInfo: { id: sudokuId, points } });
         this.timer = setInterval(this.handleTimer, 1000);
       })
       .catch(err => console.error('Error:', err));
+    this.setState({ isLoading: true });
   }
 
   handleSubmit() {
@@ -213,12 +215,17 @@ class Board extends React.Component {
     const message = this.state.success ? this.state.success : this.state.error;
     const buttonTitle = this.state.success ? 'Home' : 'Back';
     const buttonColor = this.state.success ? ' btn-success' : ' btn-secondary';
+    const isLoading = this.state.isLoading ? '' : 'd-none';
+    const hideOnLoad = this.state.isLoading ? 'd-none' : '';
     let display = 'd-none';
     if (this.state.error || this.state.success) {
       display = 'd-flex';
     }
     return (
       <div className="container position-relative">
+        <div className={'spinner-border position-absolute start-50 ' + isLoading} role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
         <div className={'error-modal justify-content-center ' + display}>
           <div className='card w-50 align-self-center text-center p-3'>
             <h2>{title}</h2>
@@ -226,9 +233,9 @@ class Board extends React.Component {
             <button className={'btn w-50 m-auto' + buttonColor} onClick={this.closeErrorModal}>{buttonTitle}</button>
           </div>
         </div>
-        <div className='row justify-content-center'>
+        <div className={'row justify-content-center ' + hideOnLoad}>
           <div className='col-12 col-sm-12 col-lg-4 position-relative'>
-            <p className='text-end'>
+            <p className='text-end clickable' onClick={this.toggleTimer}>
               <span>{this.state.timer.minute}</span>
               <span>:</span>
               <span className='me-1'>{this.state.timer.second}</span>
@@ -288,11 +295,13 @@ class Board extends React.Component {
                   <i className='fas fa-rotate-left fa-2xl i' onClick={this.handleUndo}></i>
                 </div>
               </div>
+              <div className="col-1"></div>
               <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
                 <div className={'i-wrapper' + pencil}>
                   <i className='fas fa-pencil fa-2xl i' onClick={this.togglePencil}></i>
                 </div>
               </div>
+              <div className="col-1"></div>
               <div className='col-2 col-sm-1 col-md-1 col-lg-3 col-xl-3 col-xxl-3'>
                 <div className='i-wrapper'>
                   <i className='fas fa-eraser fa-2xl i' onClick={this.handleEraser}></i>
