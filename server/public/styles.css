@@ -104,3 +104,7 @@ td:hover,
   width: 100px;
   height: 100px;
 }
+
+button:active {
+  transform: translateY(0.5rem);
+}

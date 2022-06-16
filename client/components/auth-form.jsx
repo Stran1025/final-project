@@ -67,8 +67,6 @@ export default class AuthForm extends React.Component {
       ? 'Register'
       : 'Log In';
     const modalVisibility = this.state.error ? 'd-flex' : 'd-none';
-    const username = action === 'sign-up' ? '' : 'demouser1';
-    const password = action === 'sign-up' ? '' : 'demouser1';
     if (action === 'sign-up') {
       return (
         <form className="w-100" onSubmit={handleSubmit}>
@@ -154,7 +152,6 @@ export default class AuthForm extends React.Component {
             </label>
             <input
               required
-              value={username}
               autoFocus
               id="username"
               type="text"
@@ -168,7 +165,6 @@ export default class AuthForm extends React.Component {
             </label>
             <input
               required
-              value={password}
               id="password"
               type="password"
               name="password"
