@@ -16,7 +16,6 @@ A full stack web application for sudoku player to play sudoku.
 Try the application live [Here](https://sudokuller.herokuapp.com)
 
 ## Features
-
 #### Implemented
 
 - Players can view the sudoku board
@@ -34,9 +33,7 @@ Try the application live [Here](https://sudokuller.herokuapp.com)
 
 ## Preview
 
-![SGT React](assets/sgt-react.gif)
-
-## Development
+![demo](https://user-images.githubusercontent.com/97194085/174348343-644e107d-de7d-4e15-8fe2-045865758d1b.gif)
 
 ### System Requirements
 
@@ -47,7 +44,7 @@ Try the application live [Here](https://sudokuller.herokuapp.com)
 
 1. Clone repository
 2. Install all dependencies by running `npm i` or `npm install`
-3. Create a copy of the **.env.example** file using `cp .env env.example`
+3. Create a copy of the **.env.example** file using `cp .env.example env.`
 4. Run `npm run db:import` to create the database and initialize its value
 5. Run `npm run build` to compile the codes
 6. Go to [localhost:3000](localhost:3000) to view the app
