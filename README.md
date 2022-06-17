@@ -45,6 +45,8 @@ Try the application live [Here](https://sudokuller.herokuapp.com)
 1. Clone repository
 2. Install all dependencies by running `npm i` or `npm install`
 3. Create a copy of the **.env.example** file using `cp .env.example env.`
-4. Run `npm run db:import` to create the database and initialize its value
-5. Run `npm run build` to compile the codes
-6. Go to [localhost:3000](localhost:3000) to view the app
+4. Change the values in `.env`
+5. Create a database with the same name as in the `.env` file
+6. Run `npm run db:import` to create the database and initialize its value
+7. Run `npm run build` to compile the codes
+8. Go to [localhost:3000](localhost:3000) to view the app
