@@ -231,7 +231,7 @@ class Board extends React.Component {
             <p className='text-end'>
               <span className='clickable' onClick={this.toggleTimer}>{this.state.timer.minute}</span>
               <span className='clickable' onClick={this.toggleTimer}>:</span>
-              <span className='me-1 clickable' onClick={this.toggleTimer}>{this.state.timer.second}</span>
+              <span className='me-1 clickable ' onClick={this.toggleTimer}>{this.state.timer.second}</span>
               <i className={'far ' + timerIcon} onClick={this.toggleTimer}></i>
             </p>
             <table className="table table-bordered sudoku-board" onClick={this.handleBoardClick}>
