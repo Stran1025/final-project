@@ -107,3 +107,6 @@ values (1, 'Novice', 0, 250),
        (4, 'Proficient', 2500, 5000),
        (5, 'Expert', 7500, 7500),
        (6, 'Paragon', 15000, 100000);
+
+insert into "users" ("username", "hashedPassword", "firstName", "lastName")
+value ('demouser1', '$argon2i$v=19$m=4096,t=3,p=1$AX1bGbeiHCbe2T8ZCOUXrQ$BMJixBigUIiuw1MzsZMK5i1jD4nMzXbx5NdFFjUo5Gs', 'Demo', 'User')

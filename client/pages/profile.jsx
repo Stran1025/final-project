@@ -6,6 +6,7 @@ export default class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       firstName: null,
       created: 0,
       completed: 0,
@@ -23,7 +24,9 @@ export default class Profile extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState(result);
+        this.setState({ isLoading: false });
       });
+    this.setState({ isLoading: true });
   }
 
   render() {
@@ -33,11 +36,16 @@ export default class Profile extends React.Component {
     const style = {
       width: percentage.toString() + '%'
     };
+    const isLoading = this.state.isLoading ? '' : 'd-none';
+    const hideOnLoad = this.state.isLoading ? 'd-none' : '';
     if (!this.context.token) return <Redirect to="sign-in"/>;
     return (
       <div className="container">
-        <div className="row">
-          <div className="col-10 col-sm-10 sol-md-8 col-lg-6 col-xxl-6 card half-height m-auto">
+        <div className={'spinner-border position-absolute start-50 ' + isLoading} role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <div className={'row ' + hideOnLoad}>
+          <div className="col-10 col-sm-10 sol-md-10 col-lg-6 col-xxl-6 card half-height m-auto">
             <h1 className="text-center mt-3">{'Hi! ' + this.state.firstName}</h1>
             <div className="d-flex justify-content-evenly mt-3">
               <div className="border info-box text-center d-flex align-items-center justify-content-center">
