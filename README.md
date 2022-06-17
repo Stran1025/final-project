@@ -5,10 +5,10 @@ A full stack web application for sudoku player to play sudoku.
 
 ## Technologies Used
 
-- **React** and **Bootstrap** was use to build the front-end.
-- The client communicate with the server using **fetch** requests
-- **Node.js** and **Express** was use to set up the server
-- Registration, Authentication, and Authorization was done using **Argon2** and **JSON Web Tokens**
+- **React** and **Bootstrap** were use to build the front-end.
+- The client communicates with the server using **fetch** requests
+- **Node.js** and **Express** were use to set up the server
+- Registration, Authentication, and Authorization were done using **Argon2** and **JSON Web Tokens**
 - A **PostgreSQL** database was used to store the users and sudoku puzzles 
 
 ## Live Demo
@@ -18,18 +18,18 @@ Try the application live [Here](https://sudokuller.herokuapp.com)
 ## Features
 #### Implemented
 
-- Players can view the sudoku board
-- Players can input numbers onto the board
-- Players can erase a number
-- Players can undo moves
-- Players can toggle and input pencil marks
-- Players can pause the timer
-- Players can create and view their profile
+- Players can view the sudoku board.
+- Players can input numbers onto the board.
+- Players can erase a number.
+- Players can undo moves.
+- Players can toggle and input pencil marks.
+- Players can pause the timer.
+- Players can create and view their profile.
 
 #### Future Features
 
-- Players can create their own sudoku
-- Players can continue a previous game
+- Players can create their own sudoku.
+- Players can continue a previous game.
 
 ## Preview
 
